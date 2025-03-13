@@ -185,9 +185,10 @@
 
         .metric-card {
             background: white;
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 20px;
             margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
 
         .metric-header {
@@ -197,10 +198,10 @@
         }
 
         .metric-icon {
-            width: 32px;
-            height: 32px;
+            width: 40px;
+            height: 40px;
             background: var(--ios-blue);
-            border-radius: 50%;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -209,12 +210,46 @@
 
         .metric-icon i {
             color: white;
-            font-size: 16px;
+            font-size: 20px;
         }
 
         .metric-title {
-            font-size: 20px;
+            font-size: 17px;
             font-weight: 600;
+            color: #1c1c1e;
+        }
+
+        .metric-value {
+            font-size: 34px;
+            font-weight: 700;
+            color: #1c1c1e;
+            margin-bottom: 4px;
+        }
+
+        .metric-label {
+            font-size: 15px;
+            color: var(--ios-gray);
+            margin-bottom: 8px;
+        }
+
+        .metric-info {
+            font-size: 13px;
+            color: var(--ios-gray);
+            opacity: 0.8;
+        }
+
+        .metric-progress {
+            height: 4px;
+            background: rgba(0, 122, 255, 0.1);
+            border-radius: 2px;
+            margin-top: 12px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--ios-blue);
+            border-radius: 2px;
+            transition: width 0.3s ease;
         }
 
         .zone-table {
@@ -481,16 +516,42 @@
 
     <div class="content">
         <div class="section-title">Dashboard</div>
-        <div class="card">
-            <div class="chart-container">
-                <canvas id="fcChart"></canvas>
+        <div class="metric-card">
+            <div class="metric-header">
+                <div class="metric-icon">
+                    <i class="fas fa-weight"></i>
+                </div>
+                <div class="metric-title">IMC</div>
+            </div>
+            <div class="metric-value">24,86</div>
+            <div class="metric-label">Peso Normal</div>
+            <div class="metric-progress">
+                <div class="progress-bar" style="width: 70%;"></div>
             </div>
         </div>
 
-        <div class="card">
-            <div class="chart-container">
-                <canvas id="tempoChart"></canvas>
+        <div class="metric-card">
+            <div class="metric-header">
+                <div class="metric-icon">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <div class="metric-title">Taxa Metabólica Basal</div>
             </div>
+            <div class="metric-value">1.591,25</div>
+            <div class="metric-label">kcal/dia em repouso</div>
+            <div class="metric-info">Calorias que seu corpo gasta em repouso</div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-header">
+                <div class="metric-icon">
+                    <i class="fas fa-burn"></i>
+                </div>
+                <div class="metric-title">Gasto Calórico Diário</div>
+            </div>
+            <div class="metric-value">2.745</div>
+            <div class="metric-label">kcal/dia com treinos</div>
+            <div class="metric-info">Considerando sua rotina intensa de treinos</div>
         </div>
 
         <div class="section-title">Treinos da Semana</div>
