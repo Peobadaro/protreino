@@ -517,26 +517,47 @@
         .flex-card {
             flex: 1;
             margin-bottom: 0;
-            display: flex;
-            flex-direction: column;
+            background: white;
+            border-radius: 20px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
 
         .flex-card .metric-header {
-            justify-content: flex-start;
+            margin-bottom: 12px;
         }
 
-        .flex-card:first-child .metric-header {
-            justify-content: flex-start;
+        .flex-card .metric-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: #0A84FF;
         }
 
-        .flex-card:last-child .metric-header {
-            justify-content: flex-start;
+        .flex-card .metric-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1c1c1e;
         }
 
-        .flex-card .metric-value,
-        .flex-card .metric-label,
+        .flex-card .metric-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1c1c1e;
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .flex-card .metric-label {
+            font-size: 14px;
+            color: #8E8E93;
+            margin-bottom: 4px;
+        }
+
         .flex-card .metric-info {
-            text-align: left;
+            font-size: 13px;
+            color: #8E8E93;
+            opacity: 0.8;
         }
 
         @media (max-width: 640px) {
@@ -545,15 +566,11 @@
             }
             
             .flex-card {
-                margin-bottom: 16px;
+                margin-bottom: 12px;
             }
             
             .flex-card:last-child {
                 margin-bottom: 0;
-            }
-
-            .metric-title {
-                white-space: normal;
             }
         }
     </style>
@@ -584,7 +601,7 @@
         </div>
 
         <div class="metrics-row">
-            <div class="metric-card flex-card">
+            <div class="flex-card">
                 <div class="metric-header">
                     <div class="metric-icon">
                         <i class="fas fa-fire"></i>
@@ -596,7 +613,7 @@
                 <div class="metric-info">Calorias que seu corpo gasta em repouso</div>
             </div>
 
-            <div class="metric-card flex-card">
+            <div class="flex-card">
                 <div class="metric-header">
                     <div class="metric-icon">
                         <i class="fas fa-burn"></i>
