@@ -901,33 +901,13 @@
 
         <div class="section-title">Treinos da Semana</div>
         <div class="workout-list">
-            <div class="workout-item" onclick="showRunningTrainingView('resistencia')">
+            <div class="workout-item" onclick="showGymTrainingView('pernas-core-1')">
                 <div class="workout-icon">
-                    <i class="fas fa-running"></i>
+                    <i class="fas fa-dumbbell"></i>
                 </div>
                 <div class="workout-info">
-                    <div class="workout-title">Corrida (Resistência)</div>
-                    <div class="workout-stats">50 min • FC 110-147 bpm</div>
-                </div>
-            </div>
-
-            <div class="workout-item" onclick="showRunningTrainingView('velocidade')">
-                <div class="workout-icon">
-                    <i class="fas fa-stopwatch"></i>
-                </div>
-                <div class="workout-info">
-                    <div class="workout-title">Corrida (Velocidade)</div>
-                    <div class="workout-stats">45 min • FC 129-165 bpm</div>
-                </div>
-            </div>
-
-            <div class="workout-item" onclick="showRunningTrainingView('longao')">
-                <div class="workout-icon">
-                    <i class="fas fa-road"></i>
-                </div>
-                <div class="workout-info">
-                    <div class="workout-title">Corrida (Longão)</div>
-                    <div class="workout-stats">60 min • FC 110-147 bpm</div>
+                    <div class="workout-title">Treino 1 - Pernas e Core</div>
+                    <div class="workout-stats">Terça-feira • FC 92-128 bpm</div>
                 </div>
             </div>
 
@@ -936,28 +916,18 @@
                     <i class="fas fa-dumbbell"></i>
                 </div>
                 <div class="workout-info">
-                    <div class="workout-title">Academia - Superior</div>
-                    <div class="workout-stats">60 min • FC 92-128 bpm</div>
+                    <div class="workout-title">Treino 2 - Superior</div>
+                    <div class="workout-stats">Quinta-feira • FC 92-128 bpm</div>
                 </div>
             </div>
 
-            <div class="workout-item" onclick="showGymTrainingView('quarta')">
+            <div class="workout-item" onclick="showGymTrainingView('pernas-core-3')">
                 <div class="workout-icon">
                     <i class="fas fa-dumbbell"></i>
                 </div>
                 <div class="workout-info">
-                    <div class="workout-title">Academia - Superior</div>
-                    <div class="workout-stats">60 min • FC 92-128 bpm</div>
-                </div>
-            </div>
-
-            <div class="workout-item" onclick="showGymTrainingView('sexta')">
-                <div class="workout-icon">
-                    <i class="fas fa-dumbbell"></i>
-                </div>
-                <div class="workout-info">
-                    <div class="workout-title">Academia - Pernas e Core</div>
-                    <div class="workout-stats">60 min • FC 92-128 bpm</div>
+                    <div class="workout-title">Treino 3 - Pernas e Core</div>
+                    <div class="workout-stats">Sábado/Domingo • FC 92-128 bpm</div>
                 </div>
             </div>
         </div>
@@ -2086,15 +2056,12 @@
             workoutItems.forEach(workout => {
                 workout.addEventListener('click', function() {
                     const workoutTitle = workout.querySelector('.workout-title').textContent;
-                    if (workoutTitle.includes('Bicicleta')) {
-                        showBikeTrainingView();
-                    } else if (workoutTitle.includes('Academia')) {
-                        const day = workoutTitle.split(' ')[1].toLowerCase();
-                        showGymTrainingView(day);
-                    } else if (workoutTitle.includes('Corrida')) {
-                        const type = workoutTitle.includes('Resistência') ? 'resistencia' :
-                                   workoutTitle.includes('Velocidade') ? 'velocidade' : 'longao';
-                        showRunningTrainingView(type);
+                    if (workoutTitle.includes('Treino 1')) {
+                        showGymTrainingView('pernas-core-1');
+                    } else if (workoutTitle.includes('Treino 2')) {
+                        showGymTrainingView('superior');
+                    } else if (workoutTitle.includes('Treino 3')) {
+                        showGymTrainingView('pernas-core-3');
                     }
                 });
             });
