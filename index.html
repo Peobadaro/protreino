@@ -800,6 +800,28 @@
         .dropdown-option:active {
             background: rgba(0,0,0,0.05);
         }
+
+        .workout-screen-view {
+            display: none;
+            padding: 16px;
+        }
+
+        .workout-screen-view.active {
+            display: block;
+        }
+
+        .workout-section {
+            margin-bottom: 32px;
+        }
+
+        .workout-section .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
@@ -1203,9 +1225,9 @@
             <i class="fas fa-chart-line"></i>
             <span>Progresso</span>
         </div>
-        <div class="tab-item">
-            <i class="fas fa-cog"></i>
-            <span>Config</span>
+        <div class="tab-item" onclick="showWorkoutScreenView()">
+            <i class="fas fa-dumbbell"></i>
+            <span>Treinos</span>
         </div>
     </div>
 
@@ -1313,6 +1335,74 @@
                         <i class="fas fa-bicycle"></i>
                         <span>Na bike → Fique entre 100-130 bpm para recuperação ativa</span>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="workout-screen-view">
+        <div class="header">
+            <a href="#" class="back-button" onclick="showMainView()">
+                <i class="fas fa-chevron-left"></i>
+                Voltar
+            </a>
+            <h1>Tela de Treino</h1>
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+
+        <div class="content">
+            <div class="section-title">🏋️ Treino de Academia (3x por semana)</div>
+
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <div class="metric-title">Frequência cardíaca-alvo no Apple Watch</div>
+                </div>
+                <table class="zone-table">
+                    <thead>
+                        <tr>
+                            <th>Zona</th>
+                            <th>% FC Máx</th>
+                            <th>FC Alvo (bpm)</th>
+                            <th>Objetivo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Zona 1-2</td>
+                            <td>50-70%</td>
+                            <td>92-128 bpm</td>
+                            <td>Força e hipertrofia</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Treino 1 - Pernas e Core -->
+            <div class="workout-section">
+                <div class="section-title">📅 Treino 1 - Pernas e Core (Terça-feira)</div>
+                <div id="pernas-core-exercises" class="exercise-group">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Treino 2 - Superior -->
+            <div class="workout-section">
+                <div class="section-title">📅 Treino 2 - Superior (Quinta-feira)</div>
+                <div id="superior-exercises" class="exercise-group">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Treino 3 - Pernas e Core -->
+            <div class="workout-section">
+                <div class="section-title">📅 Treino 3 - Pernas e Core (Sábado ou Domingo)</div>
+                <div id="pernas-core-weekend-exercises" class="exercise-group">
+                    <!-- Populated by JavaScript -->
                 </div>
             </div>
         </div>
@@ -1572,6 +1662,8 @@
                 showRunningTrainingView(lastView.split('-')[1]);
             } else if (lastView === 'progress') {
                 showProgressView();
+            } else if (lastView === 'workout-screen') {
+                showWorkoutScreenView();
             }
         }
 
@@ -1829,6 +1921,97 @@
             saveViewState('progress');
         }
 
+        function showWorkoutScreenView() {
+            document.querySelector('.content').style.display = 'none';
+            document.querySelector('.bike-training-view').classList.remove('active');
+            document.querySelector('.gym-training-view').classList.remove('active');
+            document.querySelector('.running-training-view').classList.remove('active');
+            document.querySelector('.tips-view').classList.remove('active');
+            document.querySelector('.progress-view').classList.remove('active');
+            document.querySelector('.workout-screen-view').classList.add('active');
+            
+            // Display Pernas e Core (Tuesday) exercises
+            const pernasExercises = workouts['pernas-core-1'].exercises;
+            let pernasHTML = pernasExercises.map(exercise => `
+                <div class="exercise-item">
+                    <div class="exercise-header">
+                        <div class="exercise-icon">
+                            <i class="${exercise.icon}"></i>
+                        </div>
+                        <div class="exercise-name">${exercise.name}</div>
+                    </div>
+                    <div class="exercise-details">
+                        <div class="exercise-sets">
+                            <div class="set-item">
+                                <i class="fas fa-layer-group"></i>
+                                <span>${exercise.sets}</span>
+                            </div>
+                            <div class="set-item">
+                                <i class="fas fa-redo"></i>
+                                <span>${exercise.reps}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('pernas-core-exercises').innerHTML = pernasHTML;
+            
+            // Display Superior exercises
+            const superiorExercises = workouts['superior'].exercises;
+            let superiorHTML = superiorExercises.map(exercise => `
+                <div class="exercise-item">
+                    <div class="exercise-header">
+                        <div class="exercise-icon">
+                            <i class="${exercise.icon}"></i>
+                        </div>
+                        <div class="exercise-name">${exercise.name}</div>
+                    </div>
+                    <div class="exercise-details">
+                        <div class="exercise-sets">
+                            <div class="set-item">
+                                <i class="fas fa-layer-group"></i>
+                                <span>${exercise.sets}</span>
+                            </div>
+                            <div class="set-item">
+                                <i class="fas fa-redo"></i>
+                                <span>${exercise.reps}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('superior-exercises').innerHTML = superiorHTML;
+            
+            // Display Pernas e Core (Weekend) exercises
+            const pernasWeekendExercises = workouts['pernas-core-3'].exercises;
+            let pernasWeekendHTML = pernasWeekendExercises.map(exercise => `
+                <div class="exercise-item">
+                    <div class="exercise-header">
+                        <div class="exercise-icon">
+                            <i class="${exercise.icon}"></i>
+                        </div>
+                        <div class="exercise-name">${exercise.name}</div>
+                    </div>
+                    <div class="exercise-details">
+                        <div class="exercise-sets">
+                            <div class="set-item">
+                                <i class="fas fa-layer-group"></i>
+                                <span>${exercise.sets}</span>
+                            </div>
+                            <div class="set-item">
+                                <i class="fas fa-redo"></i>
+                                <span>${exercise.reps}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('pernas-core-weekend-exercises').innerHTML = pernasWeekendHTML;
+            
+            updateActiveTab('workout');
+            saveViewState('workout-screen');
+        }
+
         function updateActiveTab(activeTab) {
             const tabs = document.querySelectorAll('.tab-item');
             tabs.forEach(tab => {
@@ -1837,7 +2020,8 @@
                     (activeTab === 'home' && tab.querySelector('i').classList.contains('fa-home')) ||
                     (activeTab === 'tips' && tab.querySelector('i').classList.contains('fa-lightbulb')) ||
                     (activeTab === 'progress' && tab.querySelector('i').classList.contains('fa-chart-line')) ||
-                    (activeTab === 'config' && tab.querySelector('i').classList.contains('fa-cog'))
+                    (activeTab === 'config' && tab.querySelector('i').classList.contains('fa-cog')) ||
+                    (activeTab === 'workout' && tab.querySelector('i').classList.contains('fa-dumbbell'))
                 ) {
                     tab.classList.add('active');
                 }
