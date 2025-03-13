@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -1450,9 +1450,66 @@
             }
         };
 
+        // View state management
+        let lastMainView = 'content'; // Store the last main view
+
+        function saveViewState(view) {
+            localStorage.setItem('lastView', view);
+            if (view === 'content') {
+                lastMainView = 'content';
+            }
+        }
+
+        function restoreViewState() {
+            const lastView = localStorage.getItem('lastView') || 'content';
+            if (lastView === 'content') {
+                showMainView();
+            } else if (lastView === 'tips') {
+                showTipsView();
+            } else if (lastView === 'bike') {
+                showBikeTrainingView();
+            } else if (lastView.startsWith('gym-')) {
+                showGymTrainingView(lastView.split('-')[1]);
+            } else if (lastView.startsWith('running-')) {
+                showRunningTrainingView(lastView.split('-')[1]);
+            }
+        }
+
+        function showBikeTrainingView() {
+            document.querySelector('.content').style.display = 'none';
+            document.querySelector('.bike-training-view').classList.add('active');
+            document.querySelector('.gym-training-view').classList.remove('active');
+            document.querySelector('.running-training-view').classList.remove('active');
+            document.querySelector('.tips-view').classList.remove('active');
+            saveViewState('bike');
+        }
+
+        function showMainView() {
+            document.querySelector('.content').style.display = 'block';
+            document.querySelector('.bike-training-view').classList.remove('active');
+            document.querySelector('.gym-training-view').classList.remove('active');
+            document.querySelector('.running-training-view').classList.remove('active');
+            document.querySelector('.tips-view').classList.remove('active');
+            updateActiveTab('home');
+            saveViewState('content');
+        }
+
+        function showTipsView() {
+            document.querySelector('.content').style.display = 'none';
+            document.querySelector('.bike-training-view').classList.remove('active');
+            document.querySelector('.gym-training-view').classList.remove('active');
+            document.querySelector('.running-training-view').classList.remove('active');
+            document.querySelector('.tips-view').classList.add('active');
+            updateActiveTab('tips');
+            saveViewState('tips');
+        }
+
         function showGymTrainingView(day) {
             document.querySelector('.content').style.display = 'none';
             document.querySelector('.gym-training-view').classList.add('active');
+            document.querySelector('.bike-training-view').classList.remove('active');
+            document.querySelector('.running-training-view').classList.remove('active');
+            document.querySelector('.tips-view').classList.remove('active');
             
             const workout = workouts[day];
             document.querySelector('.gym-training-view h1').textContent = workout.title;
@@ -1483,112 +1540,15 @@
                     </div>
                 `).join('')}
             `;
+            saveViewState(`gym-${day}`);
         }
-
-        // View management
-        function showBikeTrainingView() {
-            document.querySelector('.content').style.display = 'none';
-            document.querySelector('.bike-training-view').classList.add('active');
-        }
-
-        function showMainView() {
-            document.querySelector('.content').style.display = 'block';
-            document.querySelector('.bike-training-view').classList.remove('active');
-            document.querySelector('.gym-training-view').classList.remove('active');
-            document.querySelector('.running-training-view').classList.remove('active');
-            document.querySelector('.tips-view').classList.remove('active');
-            updateActiveTab('home');
-        }
-
-        function showTipsView() {
-            document.querySelector('.content').style.display = 'none';
-            document.querySelector('.bike-training-view').classList.remove('active');
-            document.querySelector('.gym-training-view').classList.remove('active');
-            document.querySelector('.running-training-view').classList.remove('active');
-            document.querySelector('.tips-view').classList.add('active');
-            updateActiveTab('tips');
-        }
-
-        function updateActiveTab(activeTab) {
-            const tabs = document.querySelectorAll('.tab-item');
-            tabs.forEach(tab => {
-                tab.classList.remove('active');
-                if (
-                    (activeTab === 'home' && tab.querySelector('i').classList.contains('fa-home')) ||
-                    (activeTab === 'tips' && tab.querySelector('i').classList.contains('fa-lightbulb')) ||
-                    (activeTab === 'progress' && tab.querySelector('i').classList.contains('fa-chart-line')) ||
-                    (activeTab === 'config' && tab.querySelector('i').classList.contains('fa-cog'))
-                ) {
-                    tab.classList.add('active');
-                }
-            });
-        }
-
-        // Running workout data
-        const runningWorkouts = {
-            resistencia: {
-                title: 'Corrida 1 (Resistência)',
-                description: 'Segunda-feira',
-                phases: [
-                    {
-                        name: 'Corrida Contínua',
-                        icon: 'fas fa-running',
-                        distance: '6-8 km',
-                        pace: 'Ritmo confortável',
-                        zones: 'Zona 2 e 3',
-                        heartRate: '110-147 bpm'
-                    }
-                ]
-            },
-            velocidade: {
-                title: 'Corrida 2 (Velocidade)',
-                description: 'Quarta-feira',
-                phases: [
-                    {
-                        name: 'Aquecimento',
-                        icon: 'fas fa-walking',
-                        distance: '1 km',
-                        pace: 'Leve',
-                        zones: 'Zona 2',
-                        heartRate: '110-128 bpm'
-                    },
-                    {
-                        name: 'Intervalos',
-                        icon: 'fas fa-stopwatch',
-                        distance: '5 km total',
-                        pace: 'Alternado',
-                        zones: 'Zona 3 e 4',
-                        heartRate: '3min (150-160 bpm) + 2min (130-140 bpm)'
-                    },
-                    {
-                        name: 'Recuperação',
-                        icon: 'fas fa-walking',
-                        distance: '1 km',
-                        pace: 'Leve',
-                        zones: 'Zona 2',
-                        heartRate: '110-128 bpm'
-                    }
-                ]
-            },
-            longao: {
-                title: 'Corrida 3 (Longão)',
-                description: 'Sexta-feira',
-                phases: [
-                    {
-                        name: 'Corrida Longa',
-                        icon: 'fas fa-road',
-                        distance: '7-10 km',
-                        pace: 'Ritmo moderado',
-                        zones: 'Zona 2 e 3',
-                        heartRate: '110-147 bpm'
-                    }
-                ]
-            }
-        };
 
         function showRunningTrainingView(type) {
             document.querySelector('.content').style.display = 'none';
             document.querySelector('.running-training-view').classList.add('active');
+            document.querySelector('.bike-training-view').classList.remove('active');
+            document.querySelector('.gym-training-view').classList.remove('active');
+            document.querySelector('.tips-view').classList.remove('active');
             
             const workout = runningWorkouts[type];
             document.querySelector('.running-training-view h1').textContent = workout.title;
@@ -1624,10 +1584,55 @@
                     `).join('')}
                 </div>
             `;
+            saveViewState(`running-${type}`);
         }
 
-        // Update click handlers
+        function updateActiveTab(activeTab) {
+            const tabs = document.querySelectorAll('.tab-item');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                if (
+                    (activeTab === 'home' && tab.querySelector('i').classList.contains('fa-home')) ||
+                    (activeTab === 'tips' && tab.querySelector('i').classList.contains('fa-lightbulb')) ||
+                    (activeTab === 'progress' && tab.querySelector('i').classList.contains('fa-chart-line')) ||
+                    (activeTab === 'config' && tab.querySelector('i').classList.contains('fa-cog'))
+                ) {
+                    tab.classList.add('active');
+                }
+            });
+        }
+
+        // Theme management
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeToggle = document.querySelector('.theme-toggle i');
+            
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.removeAttribute('data-theme');
+                themeToggle.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                themeToggle.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
+            // Set default theme to dark if no preference is saved
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            const themeToggle = document.querySelector('.theme-toggle i');
+            
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeToggle.className = 'fas fa-sun';
+            }
+
+            // Restore last view state
+            restoreViewState();
+
+            // Setup workout item click handlers
             const workoutItems = document.querySelectorAll('.workout-item');
             workoutItems.forEach(workout => {
                 workout.addEventListener('click', function() {
@@ -1644,32 +1649,6 @@
                     }
                 });
             });
-        });
-
-        function toggleTheme() {
-            const html = document.documentElement;
-            const themeToggle = document.querySelector('.theme-toggle i');
-            
-            if (html.getAttribute('data-theme') === 'dark') {
-                html.removeAttribute('data-theme');
-                themeToggle.className = 'fas fa-moon';
-                localStorage.setItem('theme', 'light');
-            } else {
-                html.setAttribute('data-theme', 'dark');
-                themeToggle.className = 'fas fa-sun';
-                localStorage.setItem('theme', 'dark');
-            }
-        }
-
-        // Check for saved theme preference
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('theme');
-            const themeToggle = document.querySelector('.theme-toggle i');
-            
-            if (savedTheme === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                themeToggle.className = 'fas fa-sun';
-            }
         });
     </script>
 </body>
