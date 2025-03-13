@@ -803,24 +803,122 @@
 
         .workout-screen-view {
             display: none;
-            padding: 16px;
+            padding: 20px;
+            height: 100vh;
+            overflow-y: auto;
         }
 
-        .workout-screen-view.active {
-            display: block;
+        .workout-screen-view .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .workout-screen-view .back-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--ios-blue);
+        }
+
+        .workout-screen-view .content {
+            padding-bottom: 80px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 20px 0;
+            color: var(--text-primary);
         }
 
         .workout-section {
-            margin-bottom: 32px;
+            margin-bottom: 30px;
         }
 
-        .workout-section .section-title {
-            font-size: 18px;
-            font-weight: 700;
+        .metric-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px;
             margin-bottom: 16px;
-            color: var(--text-primary);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .metric-header {
             display: flex;
             align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .metric-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--ios-blue);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .metric-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .training-details {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-secondary);
+        }
+
+        .detail-item i {
+            color: var(--ios-blue);
+            width: 16px;
+        }
+
+        .exercise-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .exercise-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+        }
+
+        .exercise-icon {
+            color: var(--ios-blue);
+            font-size: 16px;
+        }
+
+        .exercise-details {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+        }
+
+        .exercise-name {
+            font-weight: 500;
+        }
+
+        .exercise-sets {
+            color: var(--text-secondary);
         }
     </style>
 </head>
@@ -1323,133 +1421,7 @@
         </div>
 
         <div class="content">
-            <div class="section-title">🏋️ Treino de Academia</div>
-
-            <!-- Treino Superior -->
-            <div class="workout-section">
-                <div class="section-title">📅 Treino Superior (Quinta-feira)</div>
-                
-                <!-- Objetivos e Métricas -->
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <div class="metric-icon">
-                            <i class="fas fa-bullseye"></i>
-                        </div>
-                        <div class="metric-title">Objetivos e Métricas</div>
-                    </div>
-                    <div class="training-details">
-                        <div class="detail-item">
-                            <i class="fas fa-dumbbell"></i>
-                            <span>Foco: Força e Hipertrofia</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-heartbeat"></i>
-                            <span>FC Alvo: 92-128 bpm (50-70% FC Máx)</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-clock"></i>
-                            <span>Duração: 60 minutos</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-hourglass-half"></i>
-                            <span>Descanso: 60-90 segundos entre séries</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Lista de Exercícios -->
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <div class="metric-icon">
-                            <i class="fas fa-list-check"></i>
-                        </div>
-                        <div class="metric-title">Exercícios</div>
-                    </div>
-                    <div id="superior-exercises" class="exercise-group">
-                        <!-- Populated by JavaScript -->
-                    </div>
-                </div>
-
-                <!-- Dicas de Execução -->
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <div class="metric-icon">
-                            <i class="fas fa-lightbulb"></i>
-                        </div>
-                        <div class="metric-title">Dicas de Execução</div>
-                    </div>
-                    <div class="training-details">
-                        <div class="detail-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Mantenha a técnica correta em todos os exercícios</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Aumente a carga gradualmente ao completar todas as repetições</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Respire adequadamente: expire no esforço, inspire no retorno</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Mantenha registro das cargas para acompanhar progresso</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Progressão Recomendada -->
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <div class="metric-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="metric-title">Progressão Recomendada</div>
-                    </div>
-                    <div class="training-details">
-                        <div class="detail-item">
-                            <i class="fas fa-1"></i>
-                            <span>Semanas 1-2: Foco na técnica e adaptação</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-2"></i>
-                            <span>Semanas 3-4: Aumento gradual de carga (5-10%)</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-3"></i>
-                            <span>Semanas 5-6: Ajuste do volume conforme adaptação</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Últimas Performances -->
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <div class="metric-icon">
-                            <i class="fas fa-trophy"></i>
-                        </div>
-                        <div class="metric-title">Últimas Performances</div>
-                    </div>
-                    <div class="training-details">
-                        <div class="detail-item">
-                            <i class="fas fa-dumbbell"></i>
-                            <span>Supino Reto: 20kg - 4x8</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-dumbbell"></i>
-                            <span>Remada Curvada: 15kg - 3x10</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-dumbbell"></i>
-                            <span>Desenvolvimento: 12kg - 3x12</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-dumbbell"></i>
-                            <span>Barra Fixa: Peso Corporal - 3x5</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- Content will be populated by JavaScript -->
         </div>
     </div>
 
@@ -1741,74 +1713,123 @@
             saveViewState('tips');
         }
 
-        function showGymTrainingView(day) {
-            document.querySelector('.content').style.display = 'none';
-            document.querySelector('.gym-training-view').classList.add('active');
-            document.querySelector('.bike-training-view').classList.remove('active');
-            document.querySelector('.running-training-view').classList.remove('active');
-            document.querySelector('.tips-view').classList.remove('active');
-            document.querySelector('.progress-view').classList.remove('active');
+        function showGymTrainingView(workoutId) {
+            hideAllViews();
+            document.querySelector('.workout-screen-view').style.display = 'block';
             
-            const workout = workouts[day];
-            document.querySelector('.gym-training-view h1').textContent = "Treino de Academia (3x por semana)";
-            
-            let exercisesHTML = `
-                <div class="section-title" style="font-size: 24px; margin-bottom: 24px;">
-                    <i class="fas fa-dumbbell" style="margin-right: 8px;"></i>
-                    Treino de Academia (3x por semana)
-                </div>
+            const workout = workouts.find(w => w.id === workoutId);
+            if (!workout) return;
 
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <div class="metric-icon">
-                            <i class="fas fa-hand-point-right"></i>
+            const content = document.querySelector('.workout-screen-view .content');
+            
+            content.innerHTML = `
+                <div class="section-title">🏋️ Treino de Academia (3x por semana)</div>
+                
+                <div class="workout-section">
+                    <div class="section-title">📅 ${workout.title}</div>
+                    
+                    <!-- Objetivos e Métricas -->
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
+                            <div class="metric-title">Objetivos e Métricas</div>
                         </div>
-                        <div class="metric-title">Frequência cardíaca-alvo no Apple Watch:</div>
-                    </div>
-                    <table class="zone-table">
-                        <thead>
-                            <tr>
-                                <th>Zona</th>
-                                <th>% FC Máx</th>
-                                <th>FC Alvo (bpm)</th>
-                                <th>Objetivo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Zona 1-2</td>
-                                <td>50-70%</td>
-                                <td>92-128 bpm</td>
-                                <td>Força e hipertrofia</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="section-title" style="font-size: 20px; margin-top: 24px;">
-                    <i class="fas fa-calendar-day" style="margin-right: 8px;"></i>
-                    ${workout.title}
-                </div>
-
-                ${workout.exercises.map(exercise => `
-                    <div class="exercise-item" style="background: none; box-shadow: none; padding: 8px 0;">
-                        <div class="exercise-details" style="margin-left: 0;">
-                            <div class="exercise-sets" style="margin-top: 0;">
-                                <div class="set-item" style="font-size: 16px; color: var(--text-primary);">
-                                    <i class="fas fa-gem" style="color: var(--ios-blue); margin-right: 8px;"></i>
-                                    <span>${exercise.name} – ${exercise.sets.replace(' séries', '')}×${exercise.reps.replace(' repetições', '').replace(' repetição', '')}</span>
-                                </div>
+                        <div class="training-details">
+                            <div class="detail-item">
+                                <i class="fas fa-dumbbell"></i>
+                                <span>Foco: Força e Hipertrofia</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-heartbeat"></i>
+                                <span>FC Alvo: 92-128 bpm (50-70% FC Máx)</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span>Duração: 60 minutos</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-hourglass-half"></i>
+                                <span>Descanso: 60-90 segundos entre séries</span>
                             </div>
                         </div>
                     </div>
-                `).join('')}
+
+                    <!-- Lista de Exercícios -->
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon">
+                                <i class="fas fa-list-check"></i>
+                            </div>
+                            <div class="metric-title">Exercícios</div>
+                        </div>
+                        <div class="exercise-group">
+                            ${workout.exercises.map(exercise => `
+                                <div class="exercise-item">
+                                    <div class="exercise-icon">♦</div>
+                                    <div class="exercise-details">
+                                        <span class="exercise-name">${exercise.name}</span>
+                                        <span class="exercise-sets">${exercise.sets}×${exercise.reps}</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Dicas de Execução -->
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <div class="metric-title">Dicas de Execução</div>
+                        </div>
+                        <div class="training-details">
+                            <div class="detail-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Mantenha a técnica correta em todos os exercícios</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Aumente a carga gradualmente ao completar todas as repetições</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Respire adequadamente: expire no esforço, inspire no retorno</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Mantenha registro das cargas para acompanhar progresso</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progressão Recomendada -->
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="metric-title">Progressão Recomendada</div>
+                        </div>
+                        <div class="training-details">
+                            <div class="detail-item">
+                                <i class="fas fa-1"></i>
+                                <span>Semanas 1-2: Foco na técnica e adaptação</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-2"></i>
+                                <span>Semanas 3-4: Aumento gradual de carga (5-10%)</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-3"></i>
+                                <span>Semanas 5-6: Ajuste do volume conforme adaptação</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             `;
-            
-            const exercisesContainer = document.getElementById('workout-exercises');
-            exercisesContainer.innerHTML = exercisesHTML;
-            
-            updateActiveTab('home');
-            saveViewState(`gym-${day}`);
         }
 
         function showRunningTrainingView(type) {
@@ -1876,21 +1897,116 @@
             document.querySelector('.progress-view').classList.remove('active');
             document.querySelector('.workout-screen-view').classList.add('active');
             
-            // Display Superior exercises
-            const superiorExercises = workouts['superior'].exercises;
-            let superiorHTML = superiorExercises.map(exercise => `
-                <div class="exercise-item" style="background: none; box-shadow: none; padding: 8px 0;">
-                    <div class="exercise-details" style="margin-left: 0;">
-                        <div class="exercise-sets" style="margin-top: 0;">
-                            <div class="set-item" style="font-size: 16px; color: var(--text-primary);">
-                                <i class="fas fa-gem" style="color: var(--ios-blue); margin-right: 8px;"></i>
-                                <span>${exercise.name} – ${exercise.sets.replace(' séries', '')}×${exercise.reps.replace(' repetições', '').replace(' repetição', '')}</span>
+            // Update the content section to show all workouts
+            const workoutContent = document.querySelector('.workout-screen-view .content');
+            workoutContent.innerHTML = `
+                <div class="section-title">
+                    <i class="fas fa-dumbbell" style="margin-right: 8px;"></i>
+                    Treino de Academia (3x por semana)
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <div class="metric-icon">
+                            <i class="fas fa-hand-point-right"></i>
+                        </div>
+                        <div class="metric-title">Frequência cardíaca-alvo no Apple Watch:</div>
+                    </div>
+                    <table class="zone-table">
+                        <thead>
+                            <tr>
+                                <th>Zona</th>
+                                <th>% FC Máx</th>
+                                <th>FC Alvo (bpm)</th>
+                                <th>Objetivo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Zona 1-2</td>
+                                <td>50-70%</td>
+                                <td>92-128 bpm</td>
+                                <td>Força e hipertrofia</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Treino 1 - Pernas e Core -->
+                <div class="workout-section">
+                    <div class="section-title">
+                        <i class="fas fa-calendar-day" style="margin-right: 8px;"></i>
+                        Treino 1 - Pernas e Core (Terça-feira)
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon">
+                                <i class="fas fa-list-check"></i>
                             </div>
+                            <div class="metric-title">Exercícios</div>
+                        </div>
+                        <div class="training-details">
+                            ${workouts['pernas-core-1'].exercises.map(exercise => `
+                                <div class="detail-item">
+                                    <i class="fas fa-gem" style="color: var(--ios-blue);"></i>
+                                    <span>${exercise.name} – ${exercise.sets.replace(' séries', '')}×${exercise.reps.replace(' repetições', '').replace(' repetição', '')}</span>
+                                </div>
+                            `).join('')}
                         </div>
                     </div>
                 </div>
-            `).join('');
-            document.getElementById('superior-exercises').innerHTML = superiorHTML;
+
+                <!-- Treino 2 - Superior -->
+                <div class="workout-section">
+                    <div class="section-title">
+                        <i class="fas fa-calendar-day" style="margin-right: 8px;"></i>
+                        Treino 2 - Superior (Quinta-feira)
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon">
+                                <i class="fas fa-list-check"></i>
+                            </div>
+                            <div class="metric-title">Exercícios</div>
+                        </div>
+                        <div class="training-details">
+                            ${workouts['superior'].exercises.map(exercise => `
+                                <div class="detail-item">
+                                    <i class="fas fa-gem" style="color: var(--ios-blue);"></i>
+                                    <span>${exercise.name} – ${exercise.sets.replace(' séries', '')}×${exercise.reps.replace(' repetições', '').replace(' repetição', '')}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Treino 3 - Pernas e Core -->
+                <div class="workout-section">
+                    <div class="section-title">
+                        <i class="fas fa-calendar-day" style="margin-right: 8px;"></i>
+                        Treino 3 - Pernas e Core (Sábado ou Domingo)
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon">
+                                <i class="fas fa-list-check"></i>
+                            </div>
+                            <div class="metric-title">Exercícios</div>
+                        </div>
+                        <div class="training-details">
+                            ${workouts['pernas-core-3'].exercises.map(exercise => `
+                                <div class="detail-item">
+                                    <i class="fas fa-gem" style="color: var(--ios-blue);"></i>
+                                    <span>${exercise.name} – ${exercise.sets.replace(' séries', '')}×${exercise.reps.replace(' repetições', '').replace(' repetição', '')}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
             
             updateActiveTab('workout');
             saveViewState('workout-screen');
