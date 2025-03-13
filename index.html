@@ -889,12 +889,12 @@
                 </div>
             </div>
 
-            <div class="workout-item" onclick="showGymTrainingView('segunda')">
+            <div class="workout-item" onclick="showGymTrainingView('superior')">
                 <div class="workout-icon">
                     <i class="fas fa-dumbbell"></i>
                 </div>
                 <div class="workout-info">
-                    <div class="workout-title">Academia - Pernas e Core</div>
+                    <div class="workout-title">Academia - Superior</div>
                     <div class="workout-stats">60 min • FC 92-128 bpm</div>
                 </div>
             </div>
@@ -1451,7 +1451,7 @@
 
         // Workout data
         const workouts = {
-            segunda: {
+            'pernas-core': {
                 title: 'Treino 1 - Pernas e Core',
                 exercises: [
                     { name: 'Agachamento Livre', icon: 'fas fa-dumbbell', sets: '4 séries', reps: '8-10 reps' },
@@ -1459,6 +1459,35 @@
                     { name: 'Afundo com Halteres', icon: 'fas fa-dumbbell', sets: '3 séries', reps: '12 reps/perna' },
                     { name: 'Prancha Abdominal', icon: 'fas fa-child', sets: '3 séries', reps: '1 min' },
                     { name: 'Abdominal Infra', icon: 'fas fa-child', sets: '3 séries', reps: '15 reps' }
+                ]
+            },
+            'superior': {
+                title: "Treino 2 - Superior (Quinta-feira)",
+                exercises: [
+                    {
+                        name: "Supino Reto",
+                        sets: "4 séries",
+                        reps: "8 repetições",
+                        icon: "fas fa-dumbbell"
+                    },
+                    {
+                        name: "Remada Curvada",
+                        sets: "3 séries",
+                        reps: "10 repetições",
+                        icon: "fas fa-dumbbell"
+                    },
+                    {
+                        name: "Desenvolvimento com Halteres",
+                        sets: "3 séries",
+                        reps: "12 repetições",
+                        icon: "fas fa-dumbbell"
+                    },
+                    {
+                        name: "Barra Fixa",
+                        sets: "3 séries",
+                        reps: "5-10 repetições",
+                        icon: "fas fa-dumbbell"
+                    }
                 ]
             },
             quarta: {
@@ -1824,6 +1853,16 @@
                         showRunningTrainingView(type);
                     }
                 });
+            });
+
+            // Update the workout item in the main view
+            const gymWorkoutItems = document.querySelectorAll('.workout-item');
+            gymWorkoutItems.forEach(item => {
+                if (item.querySelector('.workout-title').textContent === 'Academia - Superior') {
+                    item.addEventListener('click', () => {
+                        showGymTrainingView('superior');
+                    });
+                }
             });
         });
     </script>
