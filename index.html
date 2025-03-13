@@ -10,6 +10,8 @@
             --ios-blue: #007AFF;
             --ios-gray: #8E8E93;
             --ios-background: #F2F2F7;
+            --ios-green: #34C759;
+            --ios-red: #FF3B30;
             --safe-area-inset-top: env(safe-area-inset-top, 0px);
             --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
         }
@@ -41,13 +43,30 @@
             padding-top: var(--safe-area-inset-top);
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
+            padding-left: 16px;
+            padding-right: 16px;
             border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .header .back-button {
+            color: var(--ios-blue);
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .header .back-button i {
+            margin-right: 5px;
         }
 
         .header h1 {
             font-size: 17px;
             font-weight: 600;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .content {
@@ -149,6 +168,118 @@
             color: #1c1c1e;
         }
 
+        .bike-training-view {
+            display: none;
+            padding: 16px;
+        }
+
+        .bike-training-view.active {
+            display: block;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .metric-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .metric-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--ios-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+
+        .metric-icon i {
+            color: white;
+            font-size: 16px;
+        }
+
+        .metric-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .zone-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+            font-size: 15px;
+        }
+
+        .zone-table th {
+            text-align: left;
+            color: var(--ios-gray);
+            font-weight: 500;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .zone-table td {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .zone-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .training-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+        }
+
+        .detail-item i {
+            color: var(--ios-blue);
+            margin-right: 8px;
+            width: 20px;
+        }
+
+        .current-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            padding: 16px;
+            background: rgba(52, 199, 89, 0.1);
+            border-radius: 8px;
+        }
+
+        .status-item {
+            text-align: center;
+        }
+
+        .status-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--ios-green);
+        }
+
+        .status-label {
+            font-size: 13px;
+            color: var(--ios-gray);
+            margin-top: 4px;
+        }
+
         @supports (padding: max(0px)) {
             body {
                 padding-top: max(44px, env(safe-area-inset-top));
@@ -159,6 +290,10 @@
 </head>
 <body>
     <div class="header">
+        <a href="#" class="back-button" onclick="showMainView()">
+            <i class="fas fa-chevron-left"></i>
+            Voltar
+        </a>
         <h1>Meus Treinos</h1>
     </div>
 
@@ -215,6 +350,91 @@
                 <div class="workout-info">
                     <div class="workout-title">Treino Pernas/Core</div>
                     <div class="workout-stats">60 min • FC 92-128 bpm</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bike-training-view">
+        <div class="header">
+            <a href="#" class="back-button" onclick="showMainView()">
+                <i class="fas fa-chevron-left"></i>
+                Voltar
+            </a>
+            <h1>Treino de Bicicleta</h1>
+        </div>
+
+        <div class="content">
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <div class="metric-title">Frequência Cardíaca Alvo</div>
+                </div>
+                <table class="zone-table">
+                    <thead>
+                        <tr>
+                            <th>Zona</th>
+                            <th>% FC Máx</th>
+                            <th>FC Alvo</th>
+                            <th>Objetivo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Zona 1-2</td>
+                            <td>50-70%</td>
+                            <td>92-128 bpm</td>
+                            <td>Recuperação ativa</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-icon">
+                        <i class="fas fa-bicycle"></i>
+                    </div>
+                    <div class="metric-title">Detalhes do Treino</div>
+                </div>
+                <div class="training-details">
+                    <div class="detail-item">
+                        <i class="fas fa-calendar"></i>
+                        <span>Sábado ou Domingo</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-clock"></i>
+                        <span>30 a 50 minutos em ritmo leve (Zona 2)</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Ajuda a acelerar a recuperação muscular</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <div class="metric-title">Status Atual</div>
+                </div>
+                <div class="current-status">
+                    <div class="status-item">
+                        <div class="status-value">0:00</div>
+                        <div class="status-label">Tempo</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-value">--</div>
+                        <div class="status-label">BPM</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-value">0.0</div>
+                        <div class="status-label">km</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -358,6 +578,27 @@
         window.addEventListener('resize', function() {
             Chart.instances.forEach(chart => {
                 chart.resize();
+            });
+        });
+
+        // View management
+        function showBikeTrainingView() {
+            document.querySelector('.content').style.display = 'none';
+            document.querySelector('.bike-training-view').classList.add('active');
+        }
+
+        function showMainView() {
+            document.querySelector('.content').style.display = 'block';
+            document.querySelector('.bike-training-view').classList.remove('active');
+        }
+
+        // Add click handler to bike workout item
+        document.addEventListener('DOMContentLoaded', function() {
+            const bikeWorkouts = document.querySelectorAll('.workout-item');
+            bikeWorkouts.forEach(workout => {
+                if (workout.querySelector('.workout-title').textContent.includes('Bicicleta')) {
+                    workout.addEventListener('click', showBikeTrainingView);
+                }
             });
         });
     </script>
