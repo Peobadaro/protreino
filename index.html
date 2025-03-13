@@ -1462,7 +1462,7 @@
                 ]
             },
             quarta: {
-                title: 'Treino 2 - Superior',
+                title: 'Treino 2 - Superior (Quinta-feira)',
                 exercises: [
                     { name: 'Supino Reto', icon: 'fas fa-dumbbell', sets: '4 séries', reps: '8 reps' },
                     { name: 'Remada Curvada', icon: 'fas fa-dumbbell', sets: '3 séries', reps: '10 reps' },
@@ -1575,9 +1575,12 @@
                 `).join('')}
             `;
             
+            const exercisesContainer = document.getElementById('workout-exercises');
+            exercisesContainer.innerHTML = exercisesHTML;
+            
             // Add additional metrics for Academia - Superior
-            if (day === 'quarta') {
-                exercisesHTML += `
+            if (workout.title === "Treino 2 - Superior (Quinta-feira)") {
+                exercisesContainer.innerHTML += `
                     <div class="exercise-group-title" style="margin-top: 24px;">Métricas do Treino</div>
                     <div class="metric-card">
                         <div class="metric-header">
@@ -1624,11 +1627,81 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon" style="background: var(--ios-green);">
+                                <i class="fas fa-calendar-day"></i>
+                            </div>
+                            <div class="metric-title">Programação Semanal</div>
+                        </div>
+                        <div class="training-details">
+                            <div class="detail-item">
+                                <i class="fas fa-calendar-check"></i>
+                                <span>Terça: Treino 1 - Pernas e Core</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-calendar-check" style="color: var(--ios-blue);"></i>
+                                <span><strong>Quinta: Treino 2 - Superior</strong></span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-calendar-check"></i>
+                                <span>Sábado/Domingo: Treino 3 - Pernas e Core</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon" style="background: #FF9500;">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="metric-title">Progressão Recomendada</div>
+                        </div>
+                        <div class="training-details">
+                            <div class="detail-item">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>Semana 1-2: Foco em técnica e adaptação</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>Semana 3-4: Aumento gradual de carga (5-10%)</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>Semana 5-6: Aumento de volume (séries ou repetições)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon" style="background: var(--ios-blue);">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="metric-title">Acompanhamento de Desempenho</div>
+                        </div>
+                        <div class="training-details">
+                            <div class="detail-item">
+                                <i class="fas fa-trophy"></i>
+                                <span>Supino Reto: Último recorde - 70kg (4×8)</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-trophy"></i>
+                                <span>Remada Curvada: Último recorde - 60kg (3×10)</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-trophy"></i>
+                                <span>Desenvolvimento: Último recorde - 16kg (3×12)</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-trophy"></i>
+                                <span>Barra Fixa: Último recorde - 8 repetições</span>
+                            </div>
+                        </div>
+                    </div>
                 `;
             }
-            
-            const exercisesContainer = document.getElementById('workout-exercises');
-            exercisesContainer.innerHTML = exercisesHTML;
             
             updateActiveTab('home');
             saveViewState(`gym-${day}`);
