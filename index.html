@@ -402,58 +402,30 @@
         }
 
         .exercise-item {
-            background: var(--background-secondary);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 8px;
-            box-shadow: var(--card-shadow);
-        }
-
-        .exercise-header {
             display: flex;
             align-items: center;
-            margin-bottom: 8px;
+            gap: 12px;
+            padding: 8px 0;
         }
 
         .exercise-icon {
-            width: 32px;
-            height: 32px;
-            background: var(--ios-blue);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            color: white;
-        }
-
-        .exercise-name {
+            color: var(--ios-blue);
             font-size: 16px;
-            font-weight: 600;
-            color: var(--text-primary);
         }
 
         .exercise-details {
-            margin-left: 44px;
-            font-size: 15px;
-            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+        }
+
+        .exercise-name {
+            font-weight: 500;
         }
 
         .exercise-sets {
-            display: flex;
-            gap: 16px;
-            margin-top: 8px;
-        }
-
-        .set-item {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .set-item i {
-            color: var(--ios-blue);
-            font-size: 14px;
+            color: var(--text-secondary);
         }
 
         @supports (padding: max(0px)) {
@@ -919,6 +891,32 @@
 
         .exercise-sets {
             color: var(--text-secondary);
+        }
+
+        /* Calendar icon styles for workout titles */
+        .calendar-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background-color: #E5E5EA;
+            border-radius: 4px;
+            margin-right: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #000;
+        }
+        
+        [data-theme="dark"] .calendar-icon {
+            background-color: #3A3A3C;
+            color: #FFF;
+        }
+        
+        .calendar-month {
+            font-size: 6px;
+            position: absolute;
+            top: 4px;
         }
     </style>
 </head>
@@ -1583,33 +1581,28 @@
                 exercises: [
                     {
                         name: "Agachamento Livre",
-                        sets: "4 séries",
-                        reps: "8-10 repetições",
-                        icon: "fas fa-dumbbell"
+                        sets: "4",
+                        reps: "8-10"
                     },
                     {
                         name: "Levantamento Terra",
-                        sets: "3 séries",
-                        reps: "8 repetições",
-                        icon: "fas fa-dumbbell"
+                        sets: "3",
+                        reps: "8"
                     },
                     {
                         name: "Afundo com Halteres",
-                        sets: "3 séries",
-                        reps: "12 repetições cada perna",
-                        icon: "fas fa-dumbbell"
+                        sets: "3",
+                        reps: "12 cada perna"
                     },
                     {
                         name: "Prancha Abdominal",
-                        sets: "3 séries",
-                        reps: "1 minuto",
-                        icon: "fas fa-dumbbell"
+                        sets: "3",
+                        reps: "1min"
                     },
                     {
                         name: "Abdominal Infra",
-                        sets: "3 séries",
-                        reps: "15 repetições",
-                        icon: "fas fa-dumbbell"
+                        sets: "3",
+                        reps: "15"
                     }
                 ]
             },
@@ -1618,27 +1611,23 @@
                 exercises: [
                     {
                         name: "Supino Reto",
-                        sets: "4 séries",
-                        reps: "8 repetições",
-                        icon: "fas fa-dumbbell"
+                        sets: "4",
+                        reps: "8"
                     },
                     {
                         name: "Remada Curvada",
-                        sets: "3 séries",
-                        reps: "10 repetições",
-                        icon: "fas fa-dumbbell"
+                        sets: "3",
+                        reps: "10"
                     },
                     {
                         name: "Desenvolvimento com Halteres",
-                        sets: "3 séries",
-                        reps: "12 repetições",
-                        icon: "fas fa-dumbbell"
+                        sets: "3",
+                        reps: "12"
                     },
                     {
                         name: "Barra Fixa",
-                        sets: "3 séries",
-                        reps: "5-10 repetições",
-                        icon: "fas fa-dumbbell"
+                        sets: "3",
+                        reps: "5-10"
                     }
                 ]
             },
@@ -1647,9 +1636,8 @@
                 exercises: [
                     {
                         name: "Variação de Pernas e Core para fortalecimento",
-                        sets: "Como no Treino 1",
-                        reps: "Com possíveis variações",
-                        icon: "fas fa-dumbbell"
+                        sets: "",
+                        reps: ""
                     }
                 ]
             }
@@ -1657,6 +1645,16 @@
 
         // View state management
         let lastMainView = 'content'; // Store the last main view
+
+        function hideAllViews() {
+            document.querySelector('.content').style.display = 'none';
+            document.querySelector('.bike-training-view').classList.remove('active');
+            document.querySelector('.gym-training-view').classList.remove('active');
+            document.querySelector('.running-training-view').classList.remove('active');
+            document.querySelector('.tips-view').classList.remove('active');
+            document.querySelector('.progress-view').classList.remove('active');
+            document.querySelector('.workout-screen-view').style.display = 'none';
+        }
 
         function saveViewState(view) {
             localStorage.setItem('lastView', view);
@@ -1717,7 +1715,7 @@
             hideAllViews();
             document.querySelector('.workout-screen-view').style.display = 'block';
             
-            const workout = workouts.find(w => w.id === workoutId);
+            const workout = workouts[workoutId];
             if (!workout) return;
 
             const content = document.querySelector('.workout-screen-view .content');
@@ -1725,109 +1723,51 @@
             content.innerHTML = `
                 <div class="section-title">🏋️ Treino de Academia (3x por semana)</div>
                 
-                <div class="workout-section">
-                    <div class="section-title">📅 ${workout.title}</div>
-                    
-                    <!-- Objetivos e Métricas -->
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <div class="metric-icon">
-                                <i class="fas fa-bullseye"></i>
-                            </div>
-                            <div class="metric-title">Objetivos e Métricas</div>
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <div class="metric-icon">
+                            <i class="fas fa-hand-point-right"></i>
                         </div>
-                        <div class="training-details">
-                            <div class="detail-item">
-                                <i class="fas fa-dumbbell"></i>
-                                <span>Foco: Força e Hipertrofia</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-heartbeat"></i>
-                                <span>FC Alvo: 92-128 bpm (50-70% FC Máx)</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-clock"></i>
-                                <span>Duração: 60 minutos</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-hourglass-half"></i>
-                                <span>Descanso: 60-90 segundos entre séries</span>
-                            </div>
-                        </div>
+                        <div class="metric-title">Frequência cardíaca-alvo no Apple Watch:</div>
                     </div>
+                    <table class="zone-table">
+                        <thead>
+                            <tr>
+                                <th>Zona</th>
+                                <th>% FC Máx</th>
+                                <th>FC Alvo (bpm)</th>
+                                <th>Objetivo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Zona 1-2</td>
+                                <td>50-70%</td>
+                                <td>92-128 bpm</td>
+                                <td>Força e hipertrofia</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-                    <!-- Lista de Exercícios -->
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <div class="metric-icon">
-                                <i class="fas fa-list-check"></i>
-                            </div>
-                            <div class="metric-title">Exercícios</div>
-                        </div>
-                        <div class="exercise-group">
-                            ${workout.exercises.map(exercise => `
-                                <div class="exercise-item">
-                                    <div class="exercise-icon">♦</div>
-                                    <div class="exercise-details">
-                                        <span class="exercise-name">${exercise.name}</span>
-                                        <span class="exercise-sets">${exercise.sets}×${exercise.reps}</span>
+                <div class="section-title" style="font-size: 20px; margin-top: 24px;">
+                    <i class="fas fa-calendar-day" style="margin-right: 8px;"></i>
+                    ${workout.title}
+                </div>
+
+                <div class="exercise-group">
+                    ${workout.exercises.map(exercise => `
+                        <div class="exercise-item" style="background: none; box-shadow: none; padding: 8px 0;">
+                            <div class="exercise-details" style="margin-left: 0;">
+                                <div class="exercise-sets" style="margin-top: 0;">
+                                    <div class="set-item" style="font-size: 16px; color: var(--text-primary);">
+                                        <span style="color: var(--ios-blue); margin-right: 8px;">♦</span>
+                                        <span>${exercise.name} – ${exercise.sets.replace(' séries', '')}×${exercise.reps.replace(' repetições', '').replace(' repetição', '').replace(' cada perna', '')}</span>
                                     </div>
                                 </div>
-                            `).join('')}
-                        </div>
-                    </div>
-
-                    <!-- Dicas de Execução -->
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <div class="metric-icon">
-                                <i class="fas fa-lightbulb"></i>
-                            </div>
-                            <div class="metric-title">Dicas de Execução</div>
-                        </div>
-                        <div class="training-details">
-                            <div class="detail-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Mantenha a técnica correta em todos os exercícios</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Aumente a carga gradualmente ao completar todas as repetições</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Respire adequadamente: expire no esforço, inspire no retorno</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Mantenha registro das cargas para acompanhar progresso</span>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Progressão Recomendada -->
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <div class="metric-icon">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <div class="metric-title">Progressão Recomendada</div>
-                        </div>
-                        <div class="training-details">
-                            <div class="detail-item">
-                                <i class="fas fa-1"></i>
-                                <span>Semanas 1-2: Foco na técnica e adaptação</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-2"></i>
-                                <span>Semanas 3-4: Aumento gradual de carga (5-10%)</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-3"></i>
-                                <span>Semanas 5-6: Ajuste do volume conforme adaptação</span>
-                            </div>
-                        </div>
-                    </div>
+                    `).join('')}
                 </div>
             `;
         }
@@ -1889,20 +1829,14 @@
         }
 
         function showWorkoutScreenView() {
-            document.querySelector('.content').style.display = 'none';
-            document.querySelector('.bike-training-view').classList.remove('active');
-            document.querySelector('.gym-training-view').classList.remove('active');
-            document.querySelector('.running-training-view').classList.remove('active');
-            document.querySelector('.tips-view').classList.remove('active');
-            document.querySelector('.progress-view').classList.remove('active');
-            document.querySelector('.workout-screen-view').classList.add('active');
+            hideAllViews();
+            document.querySelector('.workout-screen-view').style.display = 'block';
             
             // Update the content section to show all workouts
             const workoutContent = document.querySelector('.workout-screen-view .content');
             workoutContent.innerHTML = `
                 <div class="section-title">
-                    <i class="fas fa-dumbbell" style="margin-right: 8px;"></i>
-                    Treino de Academia (3x por semana)
+                    🏋️ Treino de Academia (3x por semana)
                 </div>
 
                 <div class="metric-card">
@@ -1932,77 +1866,69 @@
                     </table>
                 </div>
 
-                <!-- Treino 1 - Pernas e Core -->
-                <div class="workout-section">
-                    <div class="section-title">
-                        <i class="fas fa-calendar-day" style="margin-right: 8px;"></i>
-                        Treino 1 - Pernas e Core (Terça-feira)
-                    </div>
-                    
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <div class="metric-icon">
-                                <i class="fas fa-list-check"></i>
-                            </div>
-                            <div class="metric-title">Exercícios</div>
-                        </div>
-                        <div class="training-details">
-                            ${workouts['pernas-core-1'].exercises.map(exercise => `
-                                <div class="detail-item">
-                                    <i class="fas fa-gem" style="color: var(--ios-blue);"></i>
-                                    <span>${exercise.name} – ${exercise.sets.replace(' séries', '')}×${exercise.reps.replace(' repetições', '').replace(' repetição', '')}</span>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
+                <div class="section-title" style="font-size: 20px; margin-top: 24px;">
+                    <span class="calendar-icon">
+                        <span class="calendar-month">JAN</span>
+                        17
+                    </span>
+                    Treino 1 - Pernas e Core (Terça-feira)
                 </div>
 
-                <!-- Treino 2 - Superior -->
-                <div class="workout-section">
-                    <div class="section-title">
-                        <i class="fas fa-calendar-day" style="margin-right: 8px;"></i>
-                        Treino 2 - Superior (Quinta-feira)
-                    </div>
-                    
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <div class="metric-icon">
-                                <i class="fas fa-list-check"></i>
-                            </div>
-                            <div class="metric-title">Exercícios</div>
-                        </div>
-                        <div class="training-details">
-                            ${workouts['superior'].exercises.map(exercise => `
-                                <div class="detail-item">
-                                    <i class="fas fa-gem" style="color: var(--ios-blue);"></i>
-                                    <span>${exercise.name} – ${exercise.sets.replace(' séries', '')}×${exercise.reps.replace(' repetições', '').replace(' repetição', '')}</span>
+                <div class="exercise-group">
+                    ${workouts['pernas-core-1'].exercises.map(exercise => `
+                        <div class="exercise-item" style="background: none; box-shadow: none; padding: 8px 0;">
+                            <div class="exercise-details" style="margin-left: 0;">
+                                <div class="exercise-sets" style="margin-top: 0;">
+                                    <div class="set-item" style="font-size: 16px; color: var(--text-primary);">
+                                        <span style="color: var(--ios-blue); margin-right: 8px;">♦</span>
+                                        <span>${exercise.name} – ${exercise.sets}×${exercise.reps}</span>
+                                    </div>
                                 </div>
-                            `).join('')}
+                            </div>
                         </div>
-                    </div>
+                    `).join('')}
                 </div>
 
-                <!-- Treino 3 - Pernas e Core -->
-                <div class="workout-section">
-                    <div class="section-title">
-                        <i class="fas fa-calendar-day" style="margin-right: 8px;"></i>
-                        Treino 3 - Pernas e Core (Sábado ou Domingo)
-                    </div>
-                    
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <div class="metric-icon">
-                                <i class="fas fa-list-check"></i>
-                            </div>
-                            <div class="metric-title">Exercícios</div>
-                        </div>
-                        <div class="training-details">
-                            ${workouts['pernas-core-3'].exercises.map(exercise => `
-                                <div class="detail-item">
-                                    <i class="fas fa-gem" style="color: var(--ios-blue);"></i>
-                                    <span>${exercise.name} – ${exercise.sets.replace(' séries', '')}×${exercise.reps.replace(' repetições', '').replace(' repetição', '')}</span>
+                <div class="section-title" style="font-size: 20px; margin-top: 24px;">
+                    <span class="calendar-icon">
+                        <span class="calendar-month">JAN</span>
+                        17
+                    </span>
+                    Treino 2 - Superior (Quinta-feira)
+                </div>
+
+                <div class="exercise-group">
+                    ${workouts['superior'].exercises.map(exercise => `
+                        <div class="exercise-item" style="background: none; box-shadow: none; padding: 8px 0;">
+                            <div class="exercise-details" style="margin-left: 0;">
+                                <div class="exercise-sets" style="margin-top: 0;">
+                                    <div class="set-item" style="font-size: 16px; color: var(--text-primary);">
+                                        <span style="color: var(--ios-blue); margin-right: 8px;">♦</span>
+                                        <span>${exercise.name} – ${exercise.sets}×${exercise.reps}</span>
+                                    </div>
                                 </div>
-                            `).join('')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="section-title" style="font-size: 20px; margin-top: 24px;">
+                    <span class="calendar-icon">
+                        <span class="calendar-month">JAN</span>
+                        17
+                    </span>
+                    Treino 3 - Pernas e Core (Sábado ou Domingo)
+                </div>
+
+                <div class="exercise-group">
+                    <div class="exercise-item" style="background: none; box-shadow: none; padding: 8px 0;">
+                        <div class="exercise-details" style="margin-left: 0;">
+                            <div class="exercise-sets" style="margin-top: 0;">
+                                <div class="set-item" style="font-size: 16px; color: var(--text-primary);">
+                                    <span style="color: var(--ios-blue); margin-right: 8px;">♦</span>
+                                    <span>Variação de Pernas e Core para fortalecimento</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
