@@ -1549,8 +1549,7 @@
             const workout = workouts[day];
             document.querySelector('.gym-training-view h1').textContent = workout.title;
             
-            const exercisesContainer = document.getElementById('workout-exercises');
-            exercisesContainer.innerHTML = `
+            let exercisesHTML = `
                 <div class="exercise-group-title">Exercícios</div>
                 ${workout.exercises.map(exercise => `
                     <div class="exercise-item">
@@ -1575,6 +1574,62 @@
                     </div>
                 `).join('')}
             `;
+            
+            // Add additional metrics for Academia - Superior
+            if (day === 'quarta') {
+                exercisesHTML += `
+                    <div class="exercise-group-title" style="margin-top: 24px;">Métricas do Treino</div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
+                            <div class="metric-title">Objetivo do Treino</div>
+                        </div>
+                        <div class="training-details">
+                            <div class="detail-item">
+                                <i class="fas fa-dumbbell"></i>
+                                <span>Força e hipertrofia</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-heartbeat"></i>
+                                <span>Manter FC entre 92-128 bpm (50-70% FC Máx)</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span>Descanso entre séries: 60-90 segundos</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <div class="metric-title">Dicas para Execução</div>
+                        </div>
+                        <div class="training-details">
+                            <div class="detail-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Foco na técnica correta de cada exercício</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Aumente o peso gradualmente quando completar todas as repetições</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Respire corretamente: expire no esforço, inspire no relaxamento</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            const exercisesContainer = document.getElementById('workout-exercises');
+            exercisesContainer.innerHTML = exercisesHTML;
+            
             updateActiveTab('home');
             saveViewState(`gym-${day}`);
         }
