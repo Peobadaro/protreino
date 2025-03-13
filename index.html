@@ -780,6 +780,26 @@
         .progress-view.active {
             display: block;
         }
+
+        .workout-dropdown {
+            position: absolute;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-top: 8px;
+            z-index: 100;
+            overflow: hidden;
+        }
+        .dropdown-option {
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .dropdown-option:last-child {
+            border-bottom: none;
+        }
+        .dropdown-option:active {
+            background: rgba(0,0,0,0.05);
+        }
     </style>
 </head>
 <body>
@@ -1451,14 +1471,39 @@
 
         // Workout data
         const workouts = {
-            'pernas-core': {
-                title: 'Treino 1 - Pernas e Core',
+            'pernas-core-1': {
+                title: "Treino 1 - Pernas e Core (Terça-feira)",
                 exercises: [
-                    { name: 'Agachamento Livre', icon: 'fas fa-dumbbell', sets: '4 séries', reps: '8-10 reps' },
-                    { name: 'Levantamento Terra', icon: 'fas fa-dumbbell', sets: '3 séries', reps: '8 reps' },
-                    { name: 'Afundo com Halteres', icon: 'fas fa-dumbbell', sets: '3 séries', reps: '12 reps/perna' },
-                    { name: 'Prancha Abdominal', icon: 'fas fa-child', sets: '3 séries', reps: '1 min' },
-                    { name: 'Abdominal Infra', icon: 'fas fa-child', sets: '3 séries', reps: '15 reps' }
+                    {
+                        name: "Agachamento Livre",
+                        sets: "4 séries",
+                        reps: "8-10 repetições",
+                        icon: "fas fa-dumbbell"
+                    },
+                    {
+                        name: "Levantamento Terra",
+                        sets: "3 séries",
+                        reps: "8 repetições",
+                        icon: "fas fa-dumbbell"
+                    },
+                    {
+                        name: "Afundo com Halteres",
+                        sets: "3 séries",
+                        reps: "12 repetições cada perna",
+                        icon: "fas fa-dumbbell"
+                    },
+                    {
+                        name: "Prancha Abdominal",
+                        sets: "3 séries",
+                        reps: "1 minuto",
+                        icon: "fas fa-dumbbell"
+                    },
+                    {
+                        name: "Abdominal Infra",
+                        sets: "3 séries",
+                        reps: "15 repetições",
+                        icon: "fas fa-dumbbell"
+                    }
                 ]
             },
             'superior': {
@@ -1490,23 +1535,15 @@
                     }
                 ]
             },
-            quarta: {
-                title: 'Treino 2 - Superior (Quinta-feira)',
+            'pernas-core-3': {
+                title: "Treino 3 - Pernas e Core (Sábado ou Domingo)",
                 exercises: [
-                    { name: 'Supino Reto', icon: 'fas fa-dumbbell', sets: '4 séries', reps: '8 reps' },
-                    { name: 'Remada Curvada', icon: 'fas fa-dumbbell', sets: '3 séries', reps: '10 reps' },
-                    { name: 'Desenvolvimento com Halteres', icon: 'fas fa-dumbbell', sets: '3 séries', reps: '12 reps' },
-                    { name: 'Barra Fixa', icon: 'fas fa-dumbbell', sets: '3 séries', reps: '5-10 reps' }
-                ]
-            },
-            sexta: {
-                title: 'Treino 3 - Pernas e Core',
-                exercises: [
-                    { name: 'Agachamento Livre', icon: 'fas fa-dumbbell', sets: '4 séries', reps: '8-10 reps' },
-                    { name: 'Levantamento Terra', icon: 'fas fa-dumbbell', sets: '3 séries', reps: '8 reps' },
-                    { name: 'Afundo com Halteres', icon: 'fas fa-dumbbell', sets: '3 séries', reps: '12 reps/perna' },
-                    { name: 'Prancha Abdominal', icon: 'fas fa-child', sets: '3 séries', reps: '1 min' },
-                    { name: 'Abdominal Infra', icon: 'fas fa-child', sets: '3 séries', reps: '15 reps' }
+                    {
+                        name: "Variação de Pernas e Core para fortalecimento",
+                        sets: "Como no Treino 1",
+                        reps: "Com possíveis variações",
+                        icon: "fas fa-dumbbell"
+                    }
                 ]
             }
         };
@@ -1861,6 +1898,32 @@
                 if (item.querySelector('.workout-title').textContent === 'Academia - Superior') {
                     item.addEventListener('click', () => {
                         showGymTrainingView('superior');
+                    });
+                } else if (item.querySelector('.workout-title').textContent === 'Academia - Pernas e Core') {
+                    // Add dropdown or toggle between Treino 1 and Treino 3
+                    const dropdown = document.createElement('div');
+                    dropdown.className = 'workout-dropdown';
+                    dropdown.innerHTML = `
+                        <div class="dropdown-option" data-workout="pernas-core-1">Treino 1 (Terça)</div>
+                        <div class="dropdown-option" data-workout="pernas-core-3">Treino 3 (Fim de semana)</div>
+                    `;
+                    
+                    item.addEventListener('click', (e) => {
+                        // Toggle dropdown visibility
+                        const existing = item.querySelector('.workout-dropdown');
+                        if (existing) {
+                            existing.remove();
+                        } else {
+                            item.appendChild(dropdown.cloneNode(true));
+                            
+                            // Add click events to dropdown options
+                            item.querySelectorAll('.dropdown-option').forEach(option => {
+                                option.addEventListener('click', (event) => {
+                                    event.stopPropagation();
+                                    showGymTrainingView(option.dataset.workout);
+                                });
+                            });
+                        }
                     });
                 }
             });
