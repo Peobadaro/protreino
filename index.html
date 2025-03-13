@@ -194,6 +194,7 @@
             border-top: 0.5px solid var(--border-color);
             display: flex;
             padding-bottom: var(--safe-area-inset-bottom);
+            z-index: 1000;
         }
 
         .tab-item {
@@ -700,6 +701,76 @@
         .theme-toggle:active {
             transform: scale(0.9);
         }
+
+        .tips-view {
+            display: none;
+            padding: 16px;
+        }
+
+        .tips-view.active {
+            display: block;
+        }
+
+        .tips-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .tips-subtitle {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tips-subtitle i {
+            color: var(--ios-blue);
+        }
+
+        .zones-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 24px;
+            background: var(--background-secondary);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+
+        .zones-table th,
+        .zones-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .zones-table th {
+            background: var(--ios-blue);
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .zones-table td {
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .zones-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .zone-description {
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-top: 4px;
+        }
     </style>
 </head>
 <body>
@@ -1014,13 +1085,13 @@
     </div>
 
     <div class="tab-bar">
-        <div class="tab-item active">
+        <div class="tab-item active" onclick="showMainView()">
             <i class="fas fa-home"></i>
             <span>Home</span>
         </div>
-        <div class="tab-item">
-            <i class="fas fa-plus-circle"></i>
-            <span>Adicionar</span>
+        <div class="tab-item" onclick="showTipsView()">
+            <i class="fas fa-lightbulb"></i>
+            <span>Dicas</span>
         </div>
         <div class="tab-item">
             <i class="fas fa-chart-line"></i>
@@ -1029,6 +1100,101 @@
         <div class="tab-item">
             <i class="fas fa-cog"></i>
             <span>Config</span>
+        </div>
+    </div>
+
+    <div class="tips-view">
+        <div class="header">
+            <a href="#" class="back-button" onclick="showMainView()">
+                <i class="fas fa-chevron-left"></i>
+                Voltar
+            </a>
+            <h1>Dicas de Treino</h1>
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+
+        <div class="content">
+            <div class="tips-title">Guia de Treino</div>
+            
+            <div class="tips-subtitle">
+                <i class="fas fa-heartbeat"></i>
+                Frequência cardíaca-alvo no Apple Watch
+            </div>
+
+            <table class="zones-table">
+                <thead>
+                    <tr>
+                        <th>Zona</th>
+                        <th>% FC Máx</th>
+                        <th>FC Alvo (bpm)</th>
+                        <th>Objetivo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Zona 2</td>
+                        <td>60-70%</td>
+                        <td>110-128 bpm</td>
+                        <td>
+                            <div>Corrida leve e queima de gordura</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Zona 3</td>
+                        <td>70-80%</td>
+                        <td>129-147 bpm</td>
+                        <td>
+                            <div>Melhorar resistência e condicionamento</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Zona 4</td>
+                        <td>80-90%</td>
+                        <td>148-165 bpm</td>
+                        <td>
+                            <div>Melhorar velocidade e VO2 Máx</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tips-subtitle">
+                <i class="fas fa-calendar"></i>
+                Programação Semanal
+            </div>
+
+            <div class="metric-card">
+                <div class="training-details">
+                    <div class="detail-item">
+                        <i class="fas fa-running"></i>
+                        <span>Corrida 1 (Resistência - Segunda-feira)</span>
+                    </div>
+                    <div class="zone-description">6-8 km em ritmo confortável (Zona 2 e 3)</div>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="training-details">
+                    <div class="detail-item">
+                        <i class="fas fa-stopwatch"></i>
+                        <span>Corrida 2 (Velocidade - Quarta-feira)</span>
+                    </div>
+                    <div class="zone-description">5 km com variações de ritmo (Zona 3 e 4)</div>
+                    <div class="zone-description">Exemplo: 3 minutos forte (150-160 bpm) + 2 minutos leve (130-140 bpm)</div>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="training-details">
+                    <div class="detail-item">
+                        <i class="fas fa-road"></i>
+                        <span>Corrida 3 (Longão - Sexta-feira)</span>
+                    </div>
+                    <div class="zone-description">7-10 km em ritmo moderado (Zona 2 e 3)</div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1233,6 +1399,32 @@
             document.querySelector('.bike-training-view').classList.remove('active');
             document.querySelector('.gym-training-view').classList.remove('active');
             document.querySelector('.running-training-view').classList.remove('active');
+            document.querySelector('.tips-view').classList.remove('active');
+            updateActiveTab('home');
+        }
+
+        function showTipsView() {
+            document.querySelector('.content').style.display = 'none';
+            document.querySelector('.bike-training-view').classList.remove('active');
+            document.querySelector('.gym-training-view').classList.remove('active');
+            document.querySelector('.running-training-view').classList.remove('active');
+            document.querySelector('.tips-view').classList.add('active');
+            updateActiveTab('tips');
+        }
+
+        function updateActiveTab(activeTab) {
+            const tabs = document.querySelectorAll('.tab-item');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                if (
+                    (activeTab === 'home' && tab.querySelector('i').classList.contains('fa-home')) ||
+                    (activeTab === 'tips' && tab.querySelector('i').classList.contains('fa-lightbulb')) ||
+                    (activeTab === 'progress' && tab.querySelector('i').classList.contains('fa-chart-line')) ||
+                    (activeTab === 'config' && tab.querySelector('i').classList.contains('fa-cog'))
+                ) {
+                    tab.classList.add('active');
+                }
+            });
         }
 
         // Running workout data
