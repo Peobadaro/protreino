@@ -509,39 +509,59 @@
 
         .metrics-row {
             display: flex;
-            gap: 16px;
+            gap: 12px;
             margin-bottom: 16px;
             justify-content: space-between;
+            flex-wrap: wrap;
         }
 
         .flex-card {
             flex: 1;
+            min-width: 280px;
             margin-bottom: 0;
             background: white;
-            border-radius: 20px;
+            border-radius: 16px;
             padding: 16px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
 
         .flex-card .metric-header {
             margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .flex-card .metric-icon {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
             border-radius: 10px;
             background: #0A84FF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flex-card .metric-icon i {
+            font-size: 16px;
+            color: white;
         }
 
         .flex-card .metric-title {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             color: #1c1c1e;
+            line-height: 1.3;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
 
         .flex-card .metric-value {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 700;
             color: #1c1c1e;
             margin-bottom: 4px;
@@ -549,28 +569,59 @@
         }
 
         .flex-card .metric-label {
-            font-size: 14px;
+            font-size: 13px;
             color: #8E8E93;
             margin-bottom: 4px;
         }
 
         .flex-card .metric-info {
-            font-size: 13px;
+            font-size: 12px;
             color: #8E8E93;
             opacity: 0.8;
+            line-height: 1.4;
         }
 
-        @media (max-width: 640px) {
+        @media screen and (max-width: 768px) {
+            .content {
+                padding: 12px;
+            }
+            
+            .metrics-row {
+                gap: 10px;
+            }
+
+            .flex-card {
+                min-width: calc(50% - 5px);
+                padding: 14px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
             .metrics-row {
                 flex-direction: column;
             }
             
             .flex-card {
-                margin-bottom: 12px;
+                min-width: 100%;
+                margin-bottom: 10px;
             }
             
             .flex-card:last-child {
                 margin-bottom: 0;
+            }
+
+            .flex-card .metric-value {
+                font-size: 26px;
+            }
+        }
+
+        @supports (-webkit-touch-callout: none) {
+            .metrics-row {
+                gap: max(12px, env(safe-area-inset-left));
+            }
+            
+            .flex-card {
+                border-radius: max(16px, env(safe-area-inset-left));
             }
         }
     </style>
