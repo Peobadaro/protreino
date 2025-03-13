@@ -217,6 +217,9 @@
             font-size: 17px;
             font-weight: 600;
             color: #1c1c1e;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .metric-value {
@@ -508,11 +511,32 @@
             display: flex;
             gap: 16px;
             margin-bottom: 16px;
+            justify-content: space-between;
         }
 
         .flex-card {
             flex: 1;
             margin-bottom: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .flex-card .metric-header {
+            justify-content: flex-start;
+        }
+
+        .flex-card:first-child .metric-header {
+            justify-content: flex-start;
+        }
+
+        .flex-card:last-child .metric-header {
+            justify-content: flex-start;
+        }
+
+        .flex-card .metric-value,
+        .flex-card .metric-label,
+        .flex-card .metric-info {
+            text-align: left;
         }
 
         @media (max-width: 640px) {
@@ -526,6 +550,10 @@
             
             .flex-card:last-child {
                 margin-bottom: 0;
+            }
+
+            .metric-title {
+                white-space: normal;
             }
         }
     </style>
