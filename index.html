@@ -1420,6 +1420,35 @@
             });
         });
 
+        // Running workout data
+        const runningWorkouts = {
+            resistencia: {
+                title: 'Corrida (Resistência)',
+                phases: [
+                    { name: 'Aquecimento', icon: 'fas fa-fire', distance: '5-10 min', heartRate: '110-128 bpm' },
+                    { name: 'Corrida Contínua', icon: 'fas fa-running', distance: '30-40 min', heartRate: '129-147 bpm' },
+                    { name: 'Desaquecimento', icon: 'fas fa-wind', distance: '5 min', heartRate: '110-128 bpm' }
+                ]
+            },
+            velocidade: {
+                title: 'Corrida (Velocidade)',
+                phases: [
+                    { name: 'Aquecimento', icon: 'fas fa-fire', distance: '10 min', heartRate: '110-128 bpm' },
+                    { name: 'Intervalos', icon: 'fas fa-stopwatch', distance: '8x 400m', heartRate: '148-165 bpm' },
+                    { name: 'Recuperação', icon: 'fas fa-heartbeat', distance: '2 min entre', heartRate: '110-128 bpm' },
+                    { name: 'Desaquecimento', icon: 'fas fa-wind', distance: '5 min', heartRate: '110-128 bpm' }
+                ]
+            },
+            longao: {
+                title: 'Corrida (Longão)',
+                phases: [
+                    { name: 'Aquecimento', icon: 'fas fa-fire', distance: '5-10 min', heartRate: '110-128 bpm' },
+                    { name: 'Corrida Longa', icon: 'fas fa-road', distance: '45-50 min', heartRate: '129-147 bpm' },
+                    { name: 'Desaquecimento', icon: 'fas fa-wind', distance: '5 min', heartRate: '110-128 bpm' }
+                ]
+            }
+        };
+
         // Workout data
         const workouts = {
             segunda: {
@@ -1438,7 +1467,7 @@
                     { name: 'Supino Reto', icon: 'fas fa-dumbbell', sets: '4 séries', reps: '8 reps' },
                     { name: 'Remada Curvada', icon: 'fas fa-dumbbell', sets: '3 séries', reps: '10 reps' },
                     { name: 'Desenvolvimento com Halteres', icon: 'fas fa-dumbbell', sets: '3 séries', reps: '12 reps' },
-                    { name: 'Barra Fixa', icon: 'fas fa-child', sets: '3 séries', reps: '5-10 reps' }
+                    { name: 'Barra Fixa', icon: 'fas fa-dumbbell', sets: '3 séries', reps: '5-10 reps' }
                 ]
             },
             sexta: {
@@ -1515,6 +1544,7 @@
             document.querySelector('.bike-training-view').classList.remove('active');
             document.querySelector('.running-training-view').classList.remove('active');
             document.querySelector('.tips-view').classList.remove('active');
+            document.querySelector('.progress-view').classList.remove('active');
             
             const workout = workouts[day];
             document.querySelector('.gym-training-view h1').textContent = workout.title;
@@ -1545,6 +1575,7 @@
                     </div>
                 `).join('')}
             `;
+            updateActiveTab('home');
             saveViewState(`gym-${day}`);
         }
 
@@ -1554,6 +1585,7 @@
             document.querySelector('.bike-training-view').classList.remove('active');
             document.querySelector('.gym-training-view').classList.remove('active');
             document.querySelector('.tips-view').classList.remove('active');
+            document.querySelector('.progress-view').classList.remove('active');
             
             const workout = runningWorkouts[type];
             document.querySelector('.running-training-view h1').textContent = workout.title;
