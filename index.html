@@ -503,6 +503,31 @@
             color: var(--ios-blue);
             font-size: 14px;
         }
+
+        .metrics-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .flex-card {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 640px) {
+            .metrics-row {
+                flex-direction: column;
+            }
+            
+            .flex-card {
+                margin-bottom: 16px;
+            }
+            
+            .flex-card:last-child {
+                margin-bottom: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -530,28 +555,30 @@
             </div>
         </div>
 
-        <div class="metric-card">
-            <div class="metric-header">
-                <div class="metric-icon">
-                    <i class="fas fa-fire"></i>
+        <div class="metrics-row">
+            <div class="metric-card flex-card">
+                <div class="metric-header">
+                    <div class="metric-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="metric-title">Taxa Metabólica Basal</div>
                 </div>
-                <div class="metric-title">Taxa Metabólica Basal</div>
+                <div class="metric-value">1.591,25</div>
+                <div class="metric-label">kcal/dia em repouso</div>
+                <div class="metric-info">Calorias que seu corpo gasta em repouso</div>
             </div>
-            <div class="metric-value">1.591,25</div>
-            <div class="metric-label">kcal/dia em repouso</div>
-            <div class="metric-info">Calorias que seu corpo gasta em repouso</div>
-        </div>
 
-        <div class="metric-card">
-            <div class="metric-header">
-                <div class="metric-icon">
-                    <i class="fas fa-burn"></i>
+            <div class="metric-card flex-card">
+                <div class="metric-header">
+                    <div class="metric-icon">
+                        <i class="fas fa-burn"></i>
+                    </div>
+                    <div class="metric-title">Gasto Calórico Diário</div>
                 </div>
-                <div class="metric-title">Gasto Calórico Diário</div>
+                <div class="metric-value">2.745</div>
+                <div class="metric-label">kcal/dia com treinos</div>
+                <div class="metric-info">Considerando sua rotina intensa de treinos</div>
             </div>
-            <div class="metric-value">2.745</div>
-            <div class="metric-label">kcal/dia com treinos</div>
-            <div class="metric-info">Considerando sua rotina intensa de treinos</div>
         </div>
 
         <div class="section-title">Treinos da Semana</div>
