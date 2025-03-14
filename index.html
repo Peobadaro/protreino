@@ -122,8 +122,9 @@
         }
 
         .workout-item:active {
-            background-color: rgba(0, 122, 255, 0.1);
+            background-color: rgba(0, 122, 255, 0.15);
             transform: scale(0.98);
+            transition: all 0.2s ease;
         }
 
         @media (hover: hover) {
@@ -146,7 +147,7 @@
         }
 
         .workout-item:active::after {
-            opacity: 0.1;
+            opacity: 0.15;
         }
 
         .workout-item > * {
@@ -673,13 +674,38 @@
         }
 
         @supports (-webkit-touch-callout: none) {
-            .metrics-row {
-                gap: max(12px, env(safe-area-inset-left));
+            body {
+                /* Prevent overscroll bounce effect */
+                overscroll-behavior: none;
+                -webkit-overflow-scrolling: touch;
             }
             
-            .flex-card {
-                border-radius: max(16px, env(safe-area-inset-left));
+            /* Ensure proper safe area insets */
+            .header {
+                padding-top: max(var(--safe-area-inset-top), env(safe-area-inset-top));
+                height: calc(44px + max(var(--safe-area-inset-top), env(safe-area-inset-top)));
             }
+            
+            .tab-bar {
+                padding-bottom: max(var(--safe-area-inset-bottom), env(safe-area-inset-bottom));
+                height: calc(49px + max(var(--safe-area-inset-bottom), env(safe-area-inset-bottom)));
+            }
+            
+            /* Improve tap targets for iOS */
+            .tab-item, .workout-item, .back-button, .theme-toggle {
+                min-height: 44px;
+            }
+            
+            /* Prevent text size adjustment */
+            html {
+                -webkit-text-size-adjust: 100%;
+            }
+        }
+
+        /* Improved scrolling for workout screen */
+        .workout-screen-view {
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
         }
 
         .theme-toggle {
@@ -1037,6 +1063,16 @@
                     <div class="workout-stats">Sábado/Domingo • FC 92-128 bpm</div>
                 </div>
             </div>
+            
+            <div class="workout-item" onclick="showWorkoutScreenView('corrida-semana')">
+                <div class="workout-icon">
+                    <i class="fas fa-running"></i>
+                </div>
+                <div class="workout-info">
+                    <div class="workout-title">Treino de Corrida de Rua</div>
+                    <div class="workout-stats">3x por semana • FC 110-165 bpm</div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1262,7 +1298,7 @@
             </div>
 
             <div class="metrics-row">
-                <div class="flex-card">
+                <div class="flex-card" style="flex: 1; width: 48%;">
                     <div class="metric-header">
                         <div class="metric-icon">
                             <i class="fas fa-fire"></i>
@@ -1274,7 +1310,7 @@
                     <div class="metric-info">Calorias que seu corpo gasta em repouso</div>
                 </div>
 
-                <div class="flex-card">
+                <div class="flex-card" style="flex: 1; width: 48%;">
                     <div class="metric-header">
                         <div class="metric-icon">
                             <i class="fas fa-burn"></i>
@@ -1938,70 +1974,177 @@
 
             const content = document.querySelector('.workout-screen-view .content');
             
-            content.innerHTML = `
-                <div class="section-title">🏃‍♂️ ${workout.title}</div>
-                
-                <div class="workout-section">
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <div class="metric-icon">
-                                <i class="fas fa-heartbeat"></i>
-                            </div>
-                            <div class="metric-title">Frequência Cardíaca Alvo</div>
-                        </div>
-                        <table class="zone-table">
-                            <thead>
-                                <tr>
-                                    <th>Zona</th>
-                                    <th>% FC Máx</th>
-                                    <th>FC Alvo (bpm)</th>
-                                    <th>Objetivo</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Zona 2</td>
-                                    <td>60-70%</td>
-                                    <td>110-128 bpm</td>
-                                    <td>Corrida leve e queima de gordura</td>
-                                </tr>
-                                <tr>
-                                    <td>Zona 3</td>
-                                    <td>70-80%</td>
-                                    <td>129-147 bpm</td>
-                                    <td>Melhorar resistência e condicionamento</td>
-                                </tr>
-                                <tr>
-                                    <td>Zona 4</td>
-                                    <td>80-90%</td>
-                                    <td>148-165 bpm</td>
-                                    <td>Melhorar velocidade e VO2 Máx</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <div class="metric-icon">
-                                <i class="fas fa-list-check"></i>
-                            </div>
-                            <div class="metric-title">Exercícios</div>
-                        </div>
-                        <div class="exercise-group">
-                            ${workout.exercises.map(exercise => `
-                                <div class="exercise-item">
-                                    <div class="exercise-icon">♦</div>
-                                    <div class="exercise-details">
-                                        <span class="exercise-name">${exercise.name}</span>
-                                        <span class="exercise-sets">${exercise.sets} - ${exercise.reps}</span>
-                                    </div>
+            if (workoutId === 'corrida-semana') {
+                // Running workout view
+                content.innerHTML = `
+                    <div class="section-title">🏃‍♂️ ${workout.title}</div>
+                    
+                    <div class="workout-section">
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <div class="metric-icon">
+                                    <i class="fas fa-heartbeat"></i>
                                 </div>
-                            `).join('')}
+                                <div class="metric-title">Frequência Cardíaca Alvo</div>
+                            </div>
+                            <table class="zone-table">
+                                <thead>
+                                    <tr>
+                                        <th>Zona</th>
+                                        <th>% FC Máx</th>
+                                        <th>FC Alvo (bpm)</th>
+                                        <th>Objetivo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Zona 2</td>
+                                        <td>60-70%</td>
+                                        <td>110-128 bpm</td>
+                                        <td>Corrida leve e queima de gordura</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Zona 3</td>
+                                        <td>70-80%</td>
+                                        <td>129-147 bpm</td>
+                                        <td>Melhorar resistência e condicionamento</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Zona 4</td>
+                                        <td>80-90%</td>
+                                        <td>148-165 bpm</td>
+                                        <td>Melhorar velocidade e VO2 Máx</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <div class="metric-icon">
+                                    <i class="fas fa-list-check"></i>
+                                </div>
+                                <div class="metric-title">Treinos da Semana</div>
+                            </div>
+                            <div class="exercise-group">
+                                ${workout.exercises.map(exercise => `
+                                    <div class="exercise-item">
+                                        <div class="exercise-icon">♦</div>
+                                        <div class="exercise-details">
+                                            <span class="exercise-name">${exercise.name}</span>
+                                            <span class="exercise-sets">${exercise.details}</span>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
+                `;
+            } else {
+                // Gym workout view
+                content.innerHTML = `
+                    <div class="section-title">🏋️ ${workout.title}</div>
+                    
+                    <div class="workout-section">
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <div class="metric-icon">
+                                    <i class="fas fa-bullseye"></i>
+                                </div>
+                                <div class="metric-title">Objetivos e Métricas</div>
+                            </div>
+                            <div class="training-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-dumbbell"></i>
+                                    <span>Foco: Força e Hipertrofia</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-heartbeat"></i>
+                                    <span>FC Alvo: 92-128 bpm (50-70% FC Máx)</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>Duração: 60 minutos</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-hourglass-half"></i>
+                                    <span>Descanso: 60-90 segundos entre séries</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <div class="metric-icon">
+                                    <i class="fas fa-list-check"></i>
+                                </div>
+                                <div class="metric-title">Exercícios</div>
+                            </div>
+                            <div class="exercise-group">
+                                ${workout.exercises.map(exercise => `
+                                    <div class="exercise-item">
+                                        <div class="exercise-icon">♦</div>
+                                        <div class="exercise-details">
+                                            <span class="exercise-name">${exercise.name}</span>
+                                            <span class="exercise-sets">${exercise.sets} - ${exercise.reps}</span>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <div class="metric-icon">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <div class="metric-title">Dicas de Execução</div>
+                            </div>
+                            <div class="training-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Mantenha a técnica correta em todos os exercícios</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Aumente a carga gradualmente ao completar todas as repetições</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Respire adequadamente: expire no esforço, inspire no retorno</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Mantenha registro das cargas para acompanhar progresso</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <div class="metric-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="metric-title">Progressão Recomendada</div>
+                            </div>
+                            <div class="training-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-1"></i>
+                                    <span>Semanas 1-2: Foco na técnica e adaptação</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-2"></i>
+                                    <span>Semanas 3-4: Aumento gradual de carga (5-10%)</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-3"></i>
+                                    <span>Semanas 5-6: Ajuste do volume conforme adaptação</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
             
             // Update active tab and save view state
             updateActiveTab('workout');
@@ -2009,6 +2152,47 @@
 
             console.log('Workout Screen View updated for:', workoutId);
             console.log('Workout details:', workout);
+        }
+
+        // Theme management
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeToggle = document.querySelector('.theme-toggle i');
+            
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.removeAttribute('data-theme');
+                themeToggle.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                themeToggle.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default theme to dark if no preference is saved
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            const themeToggle = document.querySelector('.theme-toggle i');
+            
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeToggle.className = 'fas fa-sun';
+            }
+
+            // Restore last view state
+            restoreViewState();
+        });
+
+        function hideAllViews() {
+            document.querySelector('.content').style.display = 'none';
+            document.querySelector('.bike-training-view').classList.remove('active');
+            document.querySelector('.gym-training-view').classList.remove('active');
+            document.querySelector('.running-training-view').classList.remove('active');
+            document.querySelector('.tips-view').classList.remove('active');
+            document.querySelector('.progress-view').classList.remove('active');
+            document.querySelector('.workout-screen-view').style.display = 'none';
         }
     </script>
 </body>
