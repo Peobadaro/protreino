@@ -946,6 +946,195 @@
         .exercise-sets {
             color: var(--text-secondary);
         }
+
+        /* Workout Screen View Styles */
+        .workout-screen-view {
+            height: 100vh;
+            overflow-y: auto;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            padding-bottom: 80px;
+        }
+
+        .workout-screen-view .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 15px;
+            background-color: var(--card-background);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .workout-screen-view .back-button {
+            position: absolute;
+            left: 15px;
+            font-size: 16px;
+            color: var(--ios-blue);
+            cursor: pointer;
+        }
+
+        .workout-screen-view h1 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .workout-screen-view .content {
+            padding: 15px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+
+        .workout-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .metric-card {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .metric-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .metric-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--ios-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: white;
+        }
+
+        .metric-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .training-details {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .detail-item i {
+            color: var(--ios-blue);
+            font-size: 14px;
+            width: 20px;
+        }
+
+        .exercise-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .exercise-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+
+        .exercise-item:last-child {
+            border-bottom: none;
+        }
+
+        .exercise-icon {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--ios-blue);
+            font-size: 16px;
+        }
+
+        .exercise-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .exercise-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .exercise-sets {
+            font-size: 14px;
+            color: var(--secondary-text-color);
+        }
+
+        .exercise-stats {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+
+        .exercise-details-text {
+            font-size: 14px;
+            color: var(--secondary-text-color);
+            margin-top: 4px;
+        }
+
+        /* Zone Table Styles */
+        .zone-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .zone-table th, 
+        .zone-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .zone-table th {
+            font-weight: 600;
+            color: var(--secondary-text-color);
+        }
+
+        .zone-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Make exercise items with onclick handler look clickable */
+        .exercise-item[onclick] {
+            transition: background-color 0.2s;
+        }
+
+        .exercise-item[onclick]:hover,
+        .exercise-item[onclick]:active {
+            background-color: var(--hover-color);
+        }
     </style>
 </head>
 <body>
@@ -1034,7 +1223,7 @@
 
         <div class="section-title">Treinos da Semana</div>
         <div class="workout-list">
-            <div class="workout-item" onclick="showWorkoutScreenView('pernas-core-1')">
+            <div class="workout-item" data-workout-id="pernas-core-1">
                 <div class="workout-icon">
                     <i class="fas fa-dumbbell"></i>
                 </div>
@@ -1044,7 +1233,7 @@
                 </div>
             </div>
 
-            <div class="workout-item" onclick="showWorkoutScreenView('superior')">
+            <div class="workout-item" data-workout-id="superior">
                 <div class="workout-icon">
                     <i class="fas fa-dumbbell"></i>
                 </div>
@@ -1054,7 +1243,7 @@
                 </div>
             </div>
 
-            <div class="workout-item" onclick="showWorkoutScreenView('pernas-core-3')">
+            <div class="workout-item" data-workout-id="pernas-core-3">
                 <div class="workout-icon">
                     <i class="fas fa-dumbbell"></i>
                 </div>
@@ -1064,7 +1253,7 @@
                 </div>
             </div>
             
-            <div class="workout-item" onclick="showWorkoutScreenView('corrida-semana')">
+            <div class="workout-item" data-workout-id="corrida-semana">
                 <div class="workout-icon">
                     <i class="fas fa-running"></i>
                 </div>
@@ -1717,6 +1906,117 @@
                         icon: "fas fa-calendar-day"
                     }
                 ]
+            },
+            'corrida-segunda': {
+                title: "Corrida 1 - Resistência (Segunda-feira)",
+                type: "running",
+                zones: [
+                    { name: "Zona 2", percentage: "60-70%", bpm: "110-128 bpm", objective: "Corrida leve e queima de gordura" },
+                    { name: "Zona 3", percentage: "70-80%", bpm: "129-147 bpm", objective: "Melhorar resistência e condicionamento" }
+                ],
+                exercises: [
+                    {
+                        name: "Aquecimento",
+                        sets: "1 série",
+                        reps: "5-10 minutos",
+                        details: "Corrida leve (Zona 2: 110-128 bpm)",
+                        icon: "fas fa-fire"
+                    },
+                    {
+                        name: "Corrida Contínua",
+                        sets: "1 série",
+                        reps: "6-8 km",
+                        details: "Ritmo confortável (Zona 2-3: 110-147 bpm)",
+                        icon: "fas fa-running"
+                    },
+                    {
+                        name: "Desaquecimento",
+                        sets: "1 série",
+                        reps: "5 minutos",
+                        details: "Caminhada leve (Zona 1-2: 92-128 bpm)",
+                        icon: "fas fa-wind"
+                    }
+                ],
+                tips: [
+                    "Mantenha uma respiração rítmica durante toda a corrida",
+                    "Foque na técnica e postura correta",
+                    "Hidrate-se antes, durante e após o treino",
+                    "Use o Apple Watch para monitorar sua frequência cardíaca"
+                ]
+            },
+            'corrida-quarta': {
+                title: "Corrida 2 - Velocidade (Quarta-feira)",
+                type: "running",
+                zones: [
+                    { name: "Zona 3", percentage: "70-80%", bpm: "129-147 bpm", objective: "Melhorar resistência e condicionamento" },
+                    { name: "Zona 4", percentage: "80-90%", bpm: "148-165 bpm", objective: "Melhorar velocidade e VO2 Máx" }
+                ],
+                exercises: [
+                    {
+                        name: "Aquecimento",
+                        sets: "1 série",
+                        reps: "10 minutos",
+                        details: "Corrida leve (Zona 2: 110-128 bpm)",
+                        icon: "fas fa-fire"
+                    },
+                    {
+                        name: "Intervalos",
+                        sets: "5-8 séries",
+                        reps: "3 min forte + 2 min leve",
+                        details: "Forte: 150-160 bpm (Zona 4) / Leve: 130-140 bpm (Zona 3)",
+                        icon: "fas fa-stopwatch"
+                    },
+                    {
+                        name: "Desaquecimento",
+                        sets: "1 série",
+                        reps: "5 minutos",
+                        details: "Caminhada leve (Zona 1-2: 92-128 bpm)",
+                        icon: "fas fa-wind"
+                    }
+                ],
+                tips: [
+                    "Nos intervalos fortes, aumente o ritmo gradualmente",
+                    "Recupere completamente nos intervalos leves",
+                    "Mantenha a técnica mesmo quando cansado",
+                    "Monitore sua frequência cardíaca para garantir que está na zona correta"
+                ]
+            },
+            'corrida-sexta': {
+                title: "Corrida 3 - Longão (Sexta-feira)",
+                type: "running",
+                zones: [
+                    { name: "Zona 2", percentage: "60-70%", bpm: "110-128 bpm", objective: "Corrida leve e queima de gordura" },
+                    { name: "Zona 3", percentage: "70-80%", bpm: "129-147 bpm", objective: "Melhorar resistência e condicionamento" }
+                ],
+                exercises: [
+                    {
+                        name: "Aquecimento",
+                        sets: "1 série",
+                        reps: "5-10 minutos",
+                        details: "Corrida leve (Zona 2: 110-128 bpm)",
+                        icon: "fas fa-fire"
+                    },
+                    {
+                        name: "Corrida Longa",
+                        sets: "1 série",
+                        reps: "7-10 km",
+                        details: "Ritmo moderado (Zona 2-3: 110-147 bpm)",
+                        icon: "fas fa-road"
+                    },
+                    {
+                        name: "Desaquecimento",
+                        sets: "1 série",
+                        reps: "5 minutos",
+                        details: "Caminhada leve (Zona 1-2: 92-128 bpm)",
+                        icon: "fas fa-wind"
+                    }
+                ],
+                tips: [
+                    "Mantenha um ritmo constante durante toda a corrida",
+                    "Foque na resistência e não na velocidade",
+                    "Hidrate-se adequadamente antes e durante o treino",
+                    "Faça alongamentos completos após o treino"
+                ]
             }
         };
 
@@ -1900,49 +2200,98 @@
             `;
         }
 
-        function showRunningTrainingView(type) {
+        function showRunningTrainingView() {
+            // Hide all views
             document.querySelector('.content').style.display = 'none';
-            document.querySelector('.running-training-view').classList.add('active');
             document.querySelector('.bike-training-view').classList.remove('active');
             document.querySelector('.gym-training-view').classList.remove('active');
             document.querySelector('.tips-view').classList.remove('active');
             document.querySelector('.progress-view').classList.remove('active');
+            document.querySelector('.workout-screen-view').style.display = 'none';
             
-            const workout = runningWorkouts[type];
-            document.querySelector('.running-training-view h1').textContent = workout.title;
+            // Show running training view
+            document.querySelector('.running-training-view').classList.add('active');
             
-            const phasesContainer = document.getElementById('workout-phases');
-            phasesContainer.innerHTML = `
-                <div class="metric-header">
-                    <div class="metric-icon">
-                        <i class="fas fa-list-ol"></i>
+            // Update content
+            const content = document.querySelector('.running-training-view .content');
+            content.innerHTML = `
+                <div class="section-title">🏃‍♂️ Treino de Corrida</div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Treinos da Semana</h3>
                     </div>
-                    <div class="metric-title">Fases do Treino</div>
+                    <div class="card-content">
+                        <div class="workout-button" onclick="showWorkoutScreenView('corrida-segunda')">
+                            <div class="workout-day">Segunda-feira</div>
+                            <div class="workout-title">Corrida 1 - Resistência</div>
+                            <div class="workout-details">6-8 km em ritmo confortável</div>
+                        </div>
+                        
+                        <div class="workout-button" onclick="showWorkoutScreenView('corrida-quarta')">
+                            <div class="workout-day">Quarta-feira</div>
+                            <div class="workout-title">Corrida 2 - Velocidade</div>
+                            <div class="workout-details">5 km com variações de ritmo</div>
+                        </div>
+                        
+                        <div class="workout-button" onclick="showWorkoutScreenView('corrida-sexta')">
+                            <div class="workout-day">Sexta-feira</div>
+                            <div class="workout-title">Corrida 3 - Longão</div>
+                            <div class="workout-details">7-10 km em ritmo moderado</div>
+                        </div>
+                        
+                        <div class="workout-button" onclick="showWorkoutScreenView('corrida-semana')">
+                            <div class="workout-day">Visão Geral</div>
+                            <div class="workout-title">Plano Semanal Completo</div>
+                            <div class="workout-details">Ver todos os treinos e zonas</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="workout-phases">
-                    ${workout.phases.map(phase => `
-                        <div class="phase-item">
-                            <div class="phase-icon">
-                                <i class="${phase.icon}"></i>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Zonas de Frequência Cardíaca</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="metrics-row">
+                            <div class="metric-card">
+                                <div class="metric-value">Zona 2</div>
+                                <div class="metric-label">60-70% FC Máx</div>
+                                <div class="metric-details">110-128 bpm</div>
                             </div>
-                            <div class="phase-details">
-                                <div class="phase-title">${phase.name}</div>
-                                <div class="phase-stats">
-                                    <div class="phase-stat">
-                                        <i class="fas fa-route"></i>
-                                        <span>${phase.distance}</span>
-                                    </div>
-                                    <div class="phase-stat">
-                                        <i class="fas fa-heartbeat"></i>
-                                        <span>${phase.heartRate}</span>
-                                    </div>
-                                </div>
+                            <div class="metric-card">
+                                <div class="metric-value">Zona 3</div>
+                                <div class="metric-label">70-80% FC Máx</div>
+                                <div class="metric-details">129-147 bpm</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value">Zona 4</div>
+                                <div class="metric-label">80-90% FC Máx</div>
+                                <div class="metric-details">148-165 bpm</div>
                             </div>
                         </div>
-                    `).join('')}
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Dicas para Corrida</h3>
+                    </div>
+                    <div class="card-content">
+                        <ul class="tips-list">
+                            <li>Faça um aquecimento adequado antes de cada corrida</li>
+                            <li>Mantenha-se hidratado antes, durante e após o treino</li>
+                            <li>Use tênis adequados para corrida</li>
+                            <li>Monitore sua frequência cardíaca para treinar na zona correta</li>
+                            <li>Respeite os dias de descanso para recuperação</li>
+                        </ul>
+                    </div>
                 </div>
             `;
-            saveViewState(`running-${type}`);
+            
+            // Update active tab and save view state
+            updateActiveTab('running');
+            saveViewState('running');
         }
 
         function showProgressView() {
@@ -1974,8 +2323,88 @@
 
             const content = document.querySelector('.workout-screen-view .content');
             
-            if (workoutId === 'corrida-semana') {
-                // Running workout view
+            if (workout.type === "running") {
+                // Individual running workout view (Monday, Wednesday, Friday)
+                content.innerHTML = `
+                    <div class="section-title">🏃‍♂️ ${workout.title}</div>
+                    
+                    <div class="workout-section">
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <div class="metric-icon">
+                                    <i class="fas fa-heartbeat"></i>
+                                </div>
+                                <div class="metric-title">Frequência Cardíaca Alvo</div>
+                            </div>
+                            <table class="zone-table">
+                                <thead>
+                                    <tr>
+                                        <th>Zona</th>
+                                        <th>% FC Máx</th>
+                                        <th>FC Alvo (bpm)</th>
+                                        <th>Objetivo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${workout.zones.map(zone => `
+                                        <tr>
+                                            <td>${zone.name}</td>
+                                            <td>${zone.percentage}</td>
+                                            <td>${zone.bpm}</td>
+                                            <td>${zone.objective}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <div class="metric-icon">
+                                    <i class="fas fa-list-check"></i>
+                                </div>
+                                <div class="metric-title">Detalhes do Treino</div>
+                            </div>
+                            <div class="exercise-group">
+                                ${workout.exercises.map(exercise => `
+                                    <div class="exercise-item">
+                                        <div class="exercise-icon">
+                                            <i class="${exercise.icon}"></i>
+                                        </div>
+                                        <div class="exercise-details">
+                                            <span class="exercise-name">${exercise.name}</span>
+                                            <div class="exercise-stats">
+                                                <span class="exercise-sets">${exercise.sets} • ${exercise.reps}</span>
+                                            </div>
+                                            <div class="exercise-details-text">
+                                                <span>${exercise.details}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <div class="metric-icon">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <div class="metric-title">Dicas para este Treino</div>
+                            </div>
+                            <div class="training-details">
+                                ${workout.tips.map(tip => `
+                                    <div class="detail-item">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>${tip}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (workoutId === 'corrida-semana') {
+                // Running workout overview view
                 content.innerHTML = `
                     <div class="section-title">🏃‍♂️ ${workout.title}</div>
                     
@@ -2027,15 +2456,38 @@
                                 <div class="metric-title">Treinos da Semana</div>
                             </div>
                             <div class="exercise-group">
-                                ${workout.exercises.map(exercise => `
-                                    <div class="exercise-item">
-                                        <div class="exercise-icon">♦</div>
-                                        <div class="exercise-details">
-                                            <span class="exercise-name">${exercise.name}</span>
-                                            <span class="exercise-sets">${exercise.details}</span>
-                                        </div>
+                                <div class="exercise-item" onclick="showWorkoutScreenView('corrida-segunda')">
+                                    <div class="exercise-icon">
+                                        <i class="fas fa-calendar-day"></i>
                                     </div>
-                                `).join('')}
+                                    <div class="exercise-details">
+                                        <span class="exercise-name">Corrida 1 (Resistência - Segunda-feira)</span>
+                                        <span class="exercise-sets">6-8 km em ritmo confortável (Zona 2 e 3)</span>
+                                    </div>
+                                    <i class="fas fa-chevron-right" style="color: var(--ios-blue); font-size: 14px;"></i>
+                                </div>
+                                
+                                <div class="exercise-item" onclick="showWorkoutScreenView('corrida-quarta')">
+                                    <div class="exercise-icon">
+                                        <i class="fas fa-calendar-day"></i>
+                                    </div>
+                                    <div class="exercise-details">
+                                        <span class="exercise-name">Corrida 2 (Velocidade - Quarta-feira)</span>
+                                        <span class="exercise-sets">5 km com variações de ritmo (Zona 3 e 4)</span>
+                                    </div>
+                                    <i class="fas fa-chevron-right" style="color: var(--ios-blue); font-size: 14px;"></i>
+                                </div>
+                                
+                                <div class="exercise-item" onclick="showWorkoutScreenView('corrida-sexta')">
+                                    <div class="exercise-icon">
+                                        <i class="fas fa-calendar-day"></i>
+                                    </div>
+                                    <div class="exercise-details">
+                                        <span class="exercise-name">Corrida 3 (Longão - Sexta-feira)</span>
+                                        <span class="exercise-sets">7-10 km em ritmo moderado (Zona 2 e 3)</span>
+                                    </div>
+                                    <i class="fas fa-chevron-right" style="color: var(--ios-blue); font-size: 14px;"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2180,7 +2632,31 @@
                 document.documentElement.setAttribute('data-theme', 'dark');
                 themeToggle.className = 'fas fa-sun';
             }
-
+            
+            // Add event listeners for navigation tabs
+            document.getElementById('home-tab').addEventListener('click', showMainView);
+            document.getElementById('running-tab').addEventListener('click', showRunningTrainingView);
+            document.getElementById('gym-tab').addEventListener('click', showGymTrainingView);
+            document.getElementById('bike-tab').addEventListener('click', showBikeTrainingView);
+            document.getElementById('tips-tab').addEventListener('click', showTipsView);
+            document.getElementById('progress-tab').addEventListener('click', showProgressView);
+            
+            // Add event listeners for back buttons
+            document.querySelectorAll('.back-button').forEach(button => {
+                button.addEventListener('click', showMainView);
+            });
+            
+            // Add event listener for theme toggle
+            document.querySelector('.theme-toggle').addEventListener('click', toggleTheme);
+            
+            // Add event listeners for workout buttons in the main view
+            document.querySelectorAll('.workout-item').forEach(button => {
+                button.addEventListener('click', function() {
+                    const workoutId = this.getAttribute('data-workout-id') || this.getAttribute('onclick').match(/'([^']+)'/)[1];
+                    showWorkoutScreenView(workoutId);
+                });
+            });
+            
             // Restore last view state
             restoreViewState();
         });
