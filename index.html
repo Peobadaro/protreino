@@ -936,6 +936,15 @@
 
     <div class="content">
         <div class="section-title">QUINTA-FEIRA, 13 DE MAR.</div>
+        <script>
+            function updateDate() {
+                const today = new Date();
+                const options = { weekday: 'long', day: 'numeric', month: 'short' };
+                const formattedDate = today.toLocaleDateString('pt-BR', options);
+                document.querySelector('.section-title').textContent = formattedDate.toUpperCase();
+            }
+            updateDate();
+        </script>
         <div class="metric-card">
             <div class="metric-header">
                 <div class="metric-icon">
@@ -1652,6 +1661,26 @@
                         icon: "fas fa-dumbbell"
                     }
                 ]
+            },
+            'corrida-semana': {
+                title: "Treino de Corrida de Rua (3x por semana)",
+                exercises: [
+                    {
+                        name: "Corrida 1 (Resistência - Segunda-feira)",
+                        details: "6-8 km em ritmo confortável (Zona 2 e 3)",
+                        icon: "fas fa-calendar-day"
+                    },
+                    {
+                        name: "Corrida 2 (Velocidade - Quarta-feira)",
+                        details: "5 km com variações de ritmo (Zona 3 e 4)\nExemplo: 3 minutos forte (150-160 bpm) + 2 minutos leve (130-140 bpm)",
+                        icon: "fas fa-calendar-day"
+                    },
+                    {
+                        name: "Corrida 3 (Longão - Sexta-feira)",
+                        details: "7-10 km em ritmo moderado (Zona 2 e 3)",
+                        icon: "fas fa-calendar-day"
+                    }
+                ]
             }
         };
 
@@ -1910,40 +1939,48 @@
             const content = document.querySelector('.workout-screen-view .content');
             
             content.innerHTML = `
-                <div class="section-title">🏋️ Treino de Academia (3x por semana)</div>
+                <div class="section-title">🏃‍♂️ ${workout.title}</div>
                 
                 <div class="workout-section">
-                    <div class="section-title">📅 ${workout.title}</div>
-                    
-                    <!-- Objetivos e Métricas -->
                     <div class="metric-card">
                         <div class="metric-header">
                             <div class="metric-icon">
-                                <i class="fas fa-bullseye"></i>
-                            </div>
-                            <div class="metric-title">Objetivos e Métricas</div>
-                        </div>
-                        <div class="training-details">
-                            <div class="detail-item">
-                                <i class="fas fa-dumbbell"></i>
-                                <span>Foco: Força e Hipertrofia</span>
-                            </div>
-                            <div class="detail-item">
                                 <i class="fas fa-heartbeat"></i>
-                                <span>FC Alvo: 92-128 bpm (50-70% FC Máx)</span>
                             </div>
-                            <div class="detail-item">
-                                <i class="fas fa-clock"></i>
-                                <span>Duração: 60 minutos</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-hourglass-half"></i>
-                                <span>Descanso: 60-90 segundos entre séries</span>
-                            </div>
+                            <div class="metric-title">Frequência Cardíaca Alvo</div>
                         </div>
+                        <table class="zone-table">
+                            <thead>
+                                <tr>
+                                    <th>Zona</th>
+                                    <th>% FC Máx</th>
+                                    <th>FC Alvo (bpm)</th>
+                                    <th>Objetivo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Zona 2</td>
+                                    <td>60-70%</td>
+                                    <td>110-128 bpm</td>
+                                    <td>Corrida leve e queima de gordura</td>
+                                </tr>
+                                <tr>
+                                    <td>Zona 3</td>
+                                    <td>70-80%</td>
+                                    <td>129-147 bpm</td>
+                                    <td>Melhorar resistência e condicionamento</td>
+                                </tr>
+                                <tr>
+                                    <td>Zona 4</td>
+                                    <td>80-90%</td>
+                                    <td>148-165 bpm</td>
+                                    <td>Melhorar velocidade e VO2 Máx</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
 
-                    <!-- Lista de Exercícios -->
                     <div class="metric-card">
                         <div class="metric-header">
                             <div class="metric-icon">
@@ -1957,62 +1994,10 @@
                                     <div class="exercise-icon">♦</div>
                                     <div class="exercise-details">
                                         <span class="exercise-name">${exercise.name}</span>
-                                        <span class="exercise-sets">${exercise.sets}×${exercise.reps}</span>
+                                        <span class="exercise-sets">${exercise.details}</span>
                                     </div>
                                 </div>
                             `).join('')}
-                        </div>
-                    </div>
-
-                    <!-- Dicas de Execução -->
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <div class="metric-icon">
-                                <i class="fas fa-lightbulb"></i>
-                            </div>
-                            <div class="metric-title">Dicas de Execução</div>
-                        </div>
-                        <div class="training-details">
-                            <div class="detail-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Mantenha a técnica correta em todos os exercícios</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Aumente a carga gradualmente ao completar todas as repetições</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Respire adequadamente: expire no esforço, inspire no retorno</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Mantenha registro das cargas para acompanhar progresso</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Progressão Recomendada -->
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <div class="metric-icon">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <div class="metric-title">Progressão Recomendada</div>
-                        </div>
-                        <div class="training-details">
-                            <div class="detail-item">
-                                <i class="fas fa-1"></i>
-                                <span>Semanas 1-2: Foco na técnica e adaptação</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-2"></i>
-                                <span>Semanas 3-4: Aumento gradual de carga (5-10%)</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-3"></i>
-                                <span>Semanas 5-6: Ajuste do volume conforme adaptação</span>
-                            </div>
                         </div>
                     </div>
                 </div>
