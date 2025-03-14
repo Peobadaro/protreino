@@ -1994,7 +1994,7 @@
                                     <div class="exercise-icon">♦</div>
                                     <div class="exercise-details">
                                         <span class="exercise-name">${exercise.name}</span>
-                                        <span class="exercise-sets">${exercise.details}</span>
+                                        <span class="exercise-sets">${exercise.sets} - ${exercise.reps}</span>
                                     </div>
                                 </div>
                             `).join('')}
@@ -2006,6 +2006,9 @@
             // Update active tab and save view state
             updateActiveTab('workout');
             saveViewState('workout-screen-' + workoutId);
+
+            console.log('Workout Screen View updated for:', workoutId);
+            console.log('Workout details:', workout);
         }
     </script>
 </body>
