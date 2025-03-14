@@ -1845,6 +1845,13 @@
                         reps: "15 repetições",
                         icon: "fas fa-dumbbell"
                     }
+                ],
+                tips: [
+                    "Mantenha a coluna neutra durante os agachamentos",
+                    "No levantamento terra, inicie o movimento com os quadris",
+                    "Nos afundos, mantenha o joelho alinhado com o pé",
+                    "Na prancha, mantenha o corpo em linha reta e abdômen contraído",
+                    "Respire adequadamente: expire no esforço, inspire no retorno"
                 ]
             },
             'superior': {
@@ -1853,12 +1860,12 @@
                     {
                         name: "Supino Reto",
                         sets: "4 séries",
-                        reps: "8 repetições",
+                        reps: "8-10 repetições",
                         icon: "fas fa-dumbbell"
                     },
                     {
                         name: "Remada Curvada",
-                        sets: "3 séries",
+                        sets: "4 séries",
                         reps: "10 repetições",
                         icon: "fas fa-dumbbell"
                     },
@@ -1873,18 +1880,74 @@
                         sets: "3 séries",
                         reps: "5-10 repetições",
                         icon: "fas fa-dumbbell"
+                    },
+                    {
+                        name: "Tríceps Corda",
+                        sets: "3 séries",
+                        reps: "12 repetições",
+                        icon: "fas fa-dumbbell"
+                    },
+                    {
+                        name: "Rosca Direta",
+                        sets: "3 séries",
+                        reps: "12 repetições",
+                        icon: "fas fa-dumbbell"
                     }
+                ],
+                tips: [
+                    "No supino, mantenha os cotovelos em ângulo de 45° com o corpo",
+                    "Na remada, puxe com os cotovelos próximos ao corpo",
+                    "No desenvolvimento, evite arquear a coluna",
+                    "Na barra fixa, inicie com o corpo completamente estendido",
+                    "Nos exercícios de braço, evite usar impulso do corpo"
                 ]
             },
             'pernas-core-3': {
-                title: "Treino 3 - Pernas e Core (Sábado ou Domingo)",
+                title: "Treino 3 - Pernas e Core (Sábado/Domingo)",
                 exercises: [
                     {
-                        name: "Variação de Pernas e Core para fortalecimento",
-                        sets: "Como no Treino 1",
-                        reps: "Com possíveis variações",
+                        name: "Leg Press 45°",
+                        sets: "4 séries",
+                        reps: "10-12 repetições",
+                        icon: "fas fa-dumbbell"
+                    },
+                    {
+                        name: "Cadeira Extensora",
+                        sets: "3 séries",
+                        reps: "12 repetições",
+                        icon: "fas fa-dumbbell"
+                    },
+                    {
+                        name: "Mesa Flexora",
+                        sets: "3 séries",
+                        reps: "12 repetições",
+                        icon: "fas fa-dumbbell"
+                    },
+                    {
+                        name: "Panturrilha em Pé",
+                        sets: "4 séries",
+                        reps: "15 repetições",
+                        icon: "fas fa-dumbbell"
+                    },
+                    {
+                        name: "Abdominal Oblíquo",
+                        sets: "3 séries",
+                        reps: "15 repetições cada lado",
+                        icon: "fas fa-dumbbell"
+                    },
+                    {
+                        name: "Prancha Lateral",
+                        sets: "3 séries",
+                        reps: "30 segundos cada lado",
                         icon: "fas fa-dumbbell"
                     }
+                ],
+                tips: [
+                    "No leg press, evite travar os joelhos no final do movimento",
+                    "Na cadeira extensora, foque na contração do quadríceps",
+                    "Na mesa flexora, evite usar impulso para levantar o peso",
+                    "Nas panturrilhas, faça o movimento completo (esticar e contrair)",
+                    "Nos abdominais, mantenha a região lombar apoiada no solo"
                 ]
             },
             'corrida-semana': {
@@ -2307,12 +2370,7 @@
 
         function showWorkoutScreenView(workoutId) {
             // Hide all views
-            document.querySelector('.content').style.display = 'none';
-            document.querySelector('.bike-training-view').classList.remove('active');
-            document.querySelector('.gym-training-view').classList.remove('active');
-            document.querySelector('.running-training-view').classList.remove('active');
-            document.querySelector('.tips-view').classList.remove('active');
-            document.querySelector('.progress-view').classList.remove('active');
+            hideAllViews();
             document.querySelector('.workout-screen-view').style.display = 'block';
             
             const workout = workouts[workoutId];
@@ -2533,15 +2591,39 @@
                                 <div class="metric-title">Exercícios</div>
                             </div>
                             <div class="exercise-group">
-                                ${workout.exercises.map(exercise => `
-                                    <div class="exercise-item">
-                                        <div class="exercise-icon">♦</div>
-                                        <div class="exercise-details">
-                                            <span class="exercise-name">${exercise.name}</span>
-                                            <span class="exercise-sets">${exercise.sets} - ${exercise.reps}</span>
+                                ${workout.exercises.map((exercise, index) => {
+                                    // Definir ícones específicos para diferentes tipos de exercícios
+                                    let icon = exercise.icon || 'fas fa-dumbbell';
+                                    
+                                    // Se o nome do exercício contém certas palavras-chave, usar ícones específicos
+                                    if (exercise.name.toLowerCase().includes('agachamento')) {
+                                        icon = 'fas fa-chevron-down';
+                                    } else if (exercise.name.toLowerCase().includes('prancha') || exercise.name.toLowerCase().includes('abdominal')) {
+                                        icon = 'fas fa-child';
+                                    } else if (exercise.name.toLowerCase().includes('levantamento terra')) {
+                                        icon = 'fas fa-arrow-up';
+                                    } else if (exercise.name.toLowerCase().includes('supino')) {
+                                        icon = 'fas fa-arrow-up-from-bracket';
+                                    } else if (exercise.name.toLowerCase().includes('remada')) {
+                                        icon = 'fas fa-arrow-down-from-line';
+                                    } else if (exercise.name.toLowerCase().includes('barra')) {
+                                        icon = 'fas fa-grip-lines';
+                                    }
+                                    
+                                    return `
+                                        <div class="exercise-item">
+                                            <div class="exercise-icon">
+                                                <i class="${icon}"></i>
+                                            </div>
+                                            <div class="exercise-details">
+                                                <span class="exercise-name">${exercise.name}</span>
+                                                <div class="exercise-stats">
+                                                    <span class="exercise-sets">${exercise.sets} • ${exercise.reps}</span>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                `).join('')}
+                                    `;
+                                }).join('')}
                             </div>
                         </div>
 
