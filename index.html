@@ -1293,7 +1293,7 @@
             <i class="fas fa-chart-line"></i>
             <span>Progresso</span>
         </div>
-        <div class="tab-item" onclick="showWorkoutScreenView()">
+        <div class="tab-item" onclick="showWorkoutScreenView('pernas-core-1')">
             <i class="fas fa-dumbbell"></i>
             <span>Treinos</span>
         </div>
@@ -1679,8 +1679,11 @@
                 showRunningTrainingView(lastView.split('-')[1]);
             } else if (lastView === 'progress') {
                 showProgressView();
+            } else if (lastView.startsWith('workout-screen-')) {
+                const workoutId = lastView.replace('workout-screen-', '');
+                showWorkoutScreenView(workoutId);
             } else if (lastView === 'workout-screen') {
-                showWorkoutScreenView();
+                showWorkoutScreenView('pernas-core-1'); // Default to first workout
             }
         }
 
@@ -1889,11 +1892,20 @@
         }
 
         function showWorkoutScreenView(workoutId) {
-            hideAllViews();
+            // Hide all views
+            document.querySelector('.content').style.display = 'none';
+            document.querySelector('.bike-training-view').classList.remove('active');
+            document.querySelector('.gym-training-view').classList.remove('active');
+            document.querySelector('.running-training-view').classList.remove('active');
+            document.querySelector('.tips-view').classList.remove('active');
+            document.querySelector('.progress-view').classList.remove('active');
             document.querySelector('.workout-screen-view').style.display = 'block';
             
             const workout = workouts[workoutId];
             if (!workout) return;
+
+            // Update the header title
+            document.querySelector('.workout-screen-view h1').textContent = workout.title;
 
             const content = document.querySelector('.workout-screen-view .content');
             
@@ -2006,107 +2018,10 @@
                 </div>
             `;
             
+            // Update active tab and save view state
             updateActiveTab('workout');
-            saveViewState('workout-screen');
+            saveViewState('workout-screen-' + workoutId);
         }
-
-        function updateActiveTab(activeTab) {
-            const tabs = document.querySelectorAll('.tab-item');
-            tabs.forEach(tab => {
-                tab.classList.remove('active');
-                if (
-                    (activeTab === 'home' && tab.querySelector('i').classList.contains('fa-home')) ||
-                    (activeTab === 'tips' && tab.querySelector('i').classList.contains('fa-lightbulb')) ||
-                    (activeTab === 'progress' && tab.querySelector('i').classList.contains('fa-chart-line')) ||
-                    (activeTab === 'config' && tab.querySelector('i').classList.contains('fa-cog')) ||
-                    (activeTab === 'workout' && tab.querySelector('i').classList.contains('fa-dumbbell'))
-                ) {
-                    tab.classList.add('active');
-                }
-            });
-        }
-
-        // Theme management
-        function toggleTheme() {
-            const html = document.documentElement;
-            const themeToggle = document.querySelector('.theme-toggle i');
-            
-            if (html.getAttribute('data-theme') === 'dark') {
-                html.removeAttribute('data-theme');
-                themeToggle.className = 'fas fa-moon';
-                localStorage.setItem('theme', 'light');
-            } else {
-                html.setAttribute('data-theme', 'dark');
-                themeToggle.className = 'fas fa-sun';
-                localStorage.setItem('theme', 'dark');
-            }
-        }
-
-        // Initialize app
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set default theme to dark if no preference is saved
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            const themeToggle = document.querySelector('.theme-toggle i');
-            
-            if (savedTheme === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                themeToggle.className = 'fas fa-sun';
-            }
-
-            // Restore last view state
-            restoreViewState();
-
-            // Setup workout item click handlers
-            const workoutItems = document.querySelectorAll('.workout-item');
-            workoutItems.forEach(workout => {
-                workout.addEventListener('click', function() {
-                    const workoutTitle = workout.querySelector('.workout-title').textContent;
-                    if (workoutTitle.includes('Treino 1')) {
-                        showWorkoutScreenView('pernas-core-1');
-                    } else if (workoutTitle.includes('Treino 2')) {
-                        showWorkoutScreenView('superior');
-                    } else if (workoutTitle.includes('Treino 3')) {
-                        showWorkoutScreenView('pernas-core-3');
-                    }
-                });
-            });
-
-            // Update the workout item in the main view
-            const gymWorkoutItems = document.querySelectorAll('.workout-item');
-            gymWorkoutItems.forEach(item => {
-                if (item.querySelector('.workout-title').textContent === 'Academia - Superior') {
-                    item.addEventListener('click', () => {
-                        showWorkoutScreenView();
-                    });
-                } else if (item.querySelector('.workout-title').textContent === 'Academia - Pernas e Core') {
-                    // Add dropdown or toggle between Treino 1 and Treino 3
-                    const dropdown = document.createElement('div');
-                    dropdown.className = 'workout-dropdown';
-                    dropdown.innerHTML = `
-                        <div class="dropdown-option" data-workout="pernas-core-1">Treino 1 (Terça)</div>
-                        <div class="dropdown-option" data-workout="pernas-core-3">Treino 3 (Fim de semana)</div>
-                    `;
-                    
-                    item.addEventListener('click', (e) => {
-                        // Toggle dropdown visibility
-                        const existing = item.querySelector('.workout-dropdown');
-                        if (existing) {
-                            existing.remove();
-                        } else {
-                            item.appendChild(dropdown.cloneNode(true));
-                            
-                            // Add click events to dropdown options
-                            item.querySelectorAll('.dropdown-option').forEach(option => {
-                                option.addEventListener('click', (event) => {
-                                    event.stopPropagation();
-                                    showGymTrainingView(option.dataset.workout);
-                                });
-                            });
-                        }
-                    });
-                }
-            });
-        });
     </script>
 </body>
 </html>
