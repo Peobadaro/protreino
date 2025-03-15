@@ -22,7 +22,7 @@
     <div class="content">
         <div class="section-title">Treinos da Semana</div>
         <div class="workout-list">
-            <div class="workout-item" onclick="showWorkoutScreenView('pernas-core-1')">
+            <div class="workout-item" data-workout-id="pernas-core-1" onclick="showWorkoutScreenView('pernas-core-1')">
                 <div class="workout-icon">
                     <i class="fas fa-dumbbell"></i>
                 </div>
@@ -32,7 +32,7 @@
                 </div>
             </div>
 
-            <div class="workout-item" onclick="showWorkoutScreenView('superior')">
+            <div class="workout-item" data-workout-id="superior" onclick="showWorkoutScreenView('superior')">
                 <div class="workout-icon">
                     <i class="fas fa-dumbbell"></i>
                 </div>
@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <div class="workout-item" onclick="showWorkoutScreenView('pernas-core-3')">
+            <div class="workout-item" data-workout-id="pernas-core-3" onclick="showWorkoutScreenView('pernas-core-3')">
                 <div class="workout-icon">
                     <i class="fas fa-dumbbell"></i>
                 </div>
@@ -51,8 +51,8 @@
                     <div class="workout-stats">Sábado/Domingo • FC 92-128 bpm</div>
                 </div>
             </div>
-
-            <div class="workout-item" onclick="showWorkoutScreenView('corrida')">
+            
+            <div class="workout-item" data-workout-id="corrida-semana" onclick="showWorkoutScreenView('corrida-semana')">
                 <div class="workout-icon">
                     <i class="fas fa-running"></i>
                 </div>
@@ -81,20 +81,20 @@
             'pernas-core-1': {
                 title: "Treino 1 - Pernas e Core",
                 exercises: [
-                    { name: "Agachamento Livre", sets: "4x", reps: "8-10", tempo: "40s", icon: "fas fa-chevron-down" },
-                    { name: "Levantamento Terra", sets: "3x", reps: "8", tempo: "45s", icon: "fas fa-arrow-up" },
-                    { name: "Afundo com Halteres", sets: "3x", reps: "12 cada perna", tempo: "30s", icon: "fas fa-walking" },
-                    { name: "Prancha Abdominal", sets: "3x", reps: "1 min", tempo: "60s", icon: "fas fa-child" },
-                    { name: "Abdominal Infra", sets: "3x", reps: "15", tempo: "30s", icon: "fas fa-dumbbell" }
+                    { name: "Agachamento Livre", sets: "4x", reps: "8-10", icon: "fas fa-chevron-down" },
+                    { name: "Levantamento Terra", sets: "3x", reps: "8", icon: "fas fa-arrow-up" },
+                    { name: "Afundo com Halteres", sets: "3x", reps: "12 cada perna", icon: "fas fa-walking" },
+                    { name: "Prancha Abdominal", sets: "3x", reps: "1 min", icon: "fas fa-child" },
+                    { name: "Abdominal Infra", sets: "3x", reps: "15", icon: "fas fa-dumbbell" }
                 ]
             },
             'superior': {
                 title: "Treino 2 - Superior",
                 exercises: [
-                    { name: "Supino Reto", sets: "4x", reps: "8", tempo: "50s", icon: "fas fa-arrow-up-from-bracket" },
-                    { name: "Remada Curvada", sets: "3x", reps: "10", tempo: "45s", icon: "fas fa-arrow-down-from-line" },
-                    { name: "Desenvolvimento com Halteres", sets: "3x", reps: "12", tempo: "40s", icon: "fas fa-dumbbell" },
-                    { name: "Barra Fixa", sets: "3x", reps: "5-10", tempo: "30s", icon: "fas fa-grip-lines" }
+                    { name: "Supino Reto", sets: "4x", reps: "8", icon: "fas fa-arrow-up-from-bracket" },
+                    { name: "Remada Curvada", sets: "3x", reps: "10", icon: "fas fa-arrow-down-from-line" },
+                    { name: "Desenvolvimento com Halteres", sets: "3x", reps: "12", icon: "fas fa-dumbbell" },
+                    { name: "Barra Fixa", sets: "3x", reps: "5-10", icon: "fas fa-grip-lines" }
                 ]
             }
         };
@@ -116,9 +116,7 @@
                             </div>
                             <div class="exercise-details">
                                 <span class="exercise-name">${exercise.name}</span>
-                                <div class="exercise-sets">Séries: ${exercise.sets}</div>
-                                <div class="exercise-reps">Reps: ${exercise.reps}</div>
-                                <div class="exercise-tempo">Tempo: ${exercise.tempo}</div>
+                                <div class="exercise-sets">${exercise.sets} • ${exercise.reps}</div>
                             </div>
                         </div>
                     `).join('')}
