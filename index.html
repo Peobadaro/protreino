@@ -1305,7 +1305,7 @@
                                                 <span class="exercise-sets">${exercise.sets} • ${exercise.reps}</span>
                                             </div>
                                             <div class="exercise-details-text">
-                                                <span>${exercise.details}</span>
+                                                <span>${exercise.details || ''}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -1478,6 +1478,12 @@
                                         icon = 'fas fa-arrow-down-from-line';
                                     } else if (exercise.name.toLowerCase().includes('barra')) {
                                         icon = 'fas fa-grip-lines';
+                                    } else if (exercise.name.toLowerCase().includes('leg press')) {
+                                        icon = 'fas fa-angle-double-down';
+                                    } else if (exercise.name.toLowerCase().includes('cadeira')) {
+                                        icon = 'fas fa-chair';
+                                    } else if (exercise.name.toLowerCase().includes('panturrilha')) {
+                                        icon = 'fas fa-shoe-prints';
                                     }
                                     
                                     return `
@@ -1505,22 +1511,29 @@
                                 <div class="metric-title">Dicas de Execução</div>
                             </div>
                             <div class="training-details">
-                                <div class="detail-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Mantenha a técnica correta em todos os exercícios</span>
-                                </div>
-                                <div class="detail-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Aumente a carga gradualmente ao completar todas as repetições</span>
-                                </div>
-                                <div class="detail-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Respire adequadamente: expire no esforço, inspire no retorno</span>
-                                </div>
-                                <div class="detail-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Mantenha registro das cargas para acompanhar progresso</span>
-                                </div>
+                                ${workout.tips ? workout.tips.map(tip => `
+                                    <div class="detail-item">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>${tip}</span>
+                                    </div>
+                                `).join('') : `
+                                    <div class="detail-item">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>Mantenha a técnica correta em todos os exercícios</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>Aumente a carga gradualmente ao completar todas as repetições</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>Respire adequadamente: expire no esforço, inspire no retorno</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>Mantenha registro das cargas para acompanhar progresso</span>
+                                    </div>
+                                `}
                             </div>
                         </div>
 
@@ -1604,9 +1617,34 @@
             // Add event listeners for workout buttons in the main view
             document.querySelectorAll('.workout-item').forEach(button => {
                 button.addEventListener('click', function() {
-                    const workoutId = this.getAttribute('data-workout-id') || this.getAttribute('onclick').match(/'([^']+)'/)[1];
-                    showWorkoutScreenView(workoutId);
+                    const workoutId = this.getAttribute('data-workout-id');
+                    if (workoutId) {
+                        showWorkoutScreenView(workoutId);
+                        
+                        // Adicionar efeito visual de clique
+                        this.classList.add('clicked');
+                        setTimeout(() => {
+                            this.classList.remove('clicked');
+                        }, 300);
+                    }
                 });
+            });
+            
+            // Adicionar event listeners para elementos com onclick dinâmicos
+            document.addEventListener('click', function(event) {
+                // Verificar se o elemento clicado ou um de seus pais tem o atributo onclick
+                let target = event.target;
+                while (target && target !== document) {
+                    if (target.hasAttribute('onclick')) {
+                        // Adicionar efeito visual de clique
+                        target.classList.add('clicked');
+                        setTimeout(() => {
+                            target.classList.remove('clicked');
+                        }, 300);
+                        break;
+                    }
+                    target = target.parentNode;
+                }
             });
             
             // Restore last view state

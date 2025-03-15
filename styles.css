@@ -111,6 +111,7 @@ body {
     transition: all 0.2s ease;
     position: relative;
     -webkit-tap-highlight-color: transparent;
+    padding-right: 24px;
 }
 
 .workout-item:active {
@@ -126,16 +127,16 @@ body {
 }
 
 .workout-item::after {
-    content: '';
+    content: '\f054';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--ios-blue);
-    border-radius: 10px;
-    opacity: 0;
-    transition: opacity 0.2s ease;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ios-blue);
+    font-size: 14px;
+    opacity: 0.7;
 }
 
 .workout-item:active::after {
@@ -721,6 +722,7 @@ body {
     padding: 20px;
     height: 100vh;
     overflow-y: auto;
+    animation: fadeIn 0.3s ease;
 }
 
 .workout-screen-view .header {
@@ -1031,4 +1033,52 @@ body {
 .exercise-item[onclick]:hover,
 .exercise-item[onclick]:active {
     background-color: var(--hover-color);
+}
+
+/* Adicionar ícone de seta para indicar que o item é clicável */
+.workout-item .workout-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.workout-item::before {
+    content: '\f054'; /* Código do ícone de seta do Font Awesome */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    color: var(--ios-blue);
+    font-size: 14px;
+    opacity: 0.7;
+    margin-left: 8px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Efeito de clique */
+.clicked {
+    animation: click-effect 0.3s ease;
+}
+
+@keyframes click-effect {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(0.97);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 } 
