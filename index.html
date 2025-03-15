@@ -2752,6 +2752,97 @@
             document.querySelector('.progress-view').classList.remove('active');
             document.querySelector('.workout-screen-view').style.display = 'none';
         }
+
+    // Adicionando dados dos treinos
+    const workoutData = {
+        'pernas-core-1': {
+            title: "Treino 1 - Pernas e Core",
+            exercises: [
+                { name: "Agachamento Livre", sets: "4x", reps: "8-10", tempo: "40s", icon: "fas fa-chevron-down" },
+                { name: "Levantamento Terra", sets: "3x", reps: "8", tempo: "45s", icon: "fas fa-arrow-up" },
+                { name: "Afundo com Halteres", sets: "3x", reps: "12 cada perna", tempo: "30s", icon: "fas fa-walking" },
+                { name: "Prancha Abdominal", sets: "3x", reps: "1 min", tempo: "60s", icon: "fas fa-child" },
+                { name: "Abdominal Infra", sets: "3x", reps: "15", tempo: "30s", icon: "fas fa-dumbbell" }
+            ]
+        },
+        'superior': {
+            title: "Treino 2 - Superior",
+            exercises: [
+                { name: "Supino Reto", sets: "4x", reps: "8", tempo: "50s", icon: "fas fa-arrow-up-from-bracket" },
+                { name: "Remada Curvada", sets: "3x", reps: "10", tempo: "45s", icon: "fas fa-arrow-down-from-line" },
+                { name: "Desenvolvimento com Halteres", sets: "3x", reps: "12", tempo: "40s", icon: "fas fa-dumbbell" },
+                { name: "Barra Fixa", sets: "3x", reps: "5-10", tempo: "30s", icon: "fas fa-grip-lines" }
+            ]
+        },
+        'pernas-core-3': {
+            title: "Treino 3 - Pernas e Core",
+            exercises: [
+                { name: "Leg Press 45°", sets: "4x", reps: "10-12", tempo: "40s", icon: "fas fa-dumbbell" },
+                { name: "Cadeira Extensora", sets: "3x", reps: "12", tempo: "35s", icon: "fas fa-dumbbell" },
+                { name: "Mesa Flexora", sets: "3x", reps: "12", tempo: "35s", icon: "fas fa-dumbbell" },
+                { name: "Panturrilha em Pé", sets: "4x", reps: "15", tempo: "30s", icon: "fas fa-dumbbell" },
+                { name: "Abdominal Oblíquo", sets: "3x", reps: "15 cada lado", tempo: "30s", icon: "fas fa-dumbbell" }
+            ]
+        },
+        'corrida-semana': {
+            title: "Treino de Corrida de Rua",
+            exercises: [
+                { name: "Corrida 1 (Resistência)", sets: "6-8 km", reps: "Ritmo confortável", tempo: "Zona 2-3", icon: "fas fa-running" },
+                { name: "Corrida 2 (Velocidade)", sets: "5 km", reps: "Variações de ritmo", tempo: "Zona 3-4", icon: "fas fa-running" },
+                { name: "Corrida 3 (Longão)", sets: "7-10 km", reps: "Ritmo moderado", tempo: "Zona 2-3", icon: "fas fa-running" }
+            ]
+        }
+    };
+
+    // Função para exibir a tela de treino
+    function showWorkoutScreenView(workoutId) {
+        const workout = workoutData[workoutId];
+        if (!workout) return;
+
+        document.getElementById('workout-title').textContent = workout.title;
+
+        const content = document.querySelector('.workout-screen-view .content');
+        content.innerHTML = `
+            <div class="section-title">${workout.title}</div>
+            <div class="exercise-group">
+                ${workout.exercises.map(exercise => `
+                    <div class="exercise-item">
+                        <div class="exercise-icon">
+                            <i class="${exercise.icon}"></i>
+                        </div>
+                        <div class="exercise-details">
+                            <span class="exercise-name">${exercise.name}</span>
+                            <div class="exercise-sets">Séries: ${exercise.sets}</div>
+                            <div class="exercise-reps">Reps: ${exercise.reps}</div>
+                            <div class="exercise-tempo">Tempo: ${exercise.tempo}</div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+
+        document.querySelector('.content').style.display = 'none';
+        document.querySelector('.workout-screen-view').style.display = 'block';
+    }
+
+    // Função para voltar à tela principal
+    function showMainView() {
+        document.querySelector('.content').style.display = 'block';
+        document.querySelector('.workout-screen-view').style.display = 'none';
+    }
+
+    // Adicionar evento de clique nos treinos da semana
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.workout-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const workoutId = this.getAttribute('data-workout-id');
+                if (workoutId) {
+                    showWorkoutScreenView(workoutId);
+                }
+            });
+        });
+    });
+
     </script>
 </body>
 </html>
